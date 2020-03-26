@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sparkline/flutter_sparkline.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:patient_care/pages/login_page.dart';
 
 
 
@@ -243,7 +244,7 @@ class _MainPageState extends State<MainPage> {
             IconButton(
               icon: Icon(Icons.exit_to_app),
               onPressed: () {
-                Navigator.pop(context);
+                Navigator.pop(context,LoginPage());
               },
             ),]
         ),
