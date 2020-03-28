@@ -104,7 +104,7 @@ Widget listViewWidget(List<Patient> patient) {
         padding: const EdgeInsets.all(2.0),
         itemBuilder: (context, position) {
           return Card(
-            color: _isSeen(patient, position) ? Colors.white : Colors.teal[50],
+            color: _isSeen(patient, position) ? Colors.teal : Colors.teal[50],
             child: ListTile(
               title: Text(
                 '${patient[position].firstName ?? ''}' +
@@ -112,14 +112,14 @@ Widget listViewWidget(List<Patient> patient) {
                     '${patient[position].lastName ?? ''}',
                 style: TextStyle(
                     fontSize: 18.0,
-                    color: Colors.teal,
+                    color: Colors.black,
                     fontWeight: FontWeight.bold),
               ),
               subtitle: Text(
                 '${patient[position].conditions}',
                 style: TextStyle(
                     // fontSize: 18.0,
-                    color: Colors.teal[400],
+                    color: Colors.black,
                     fontWeight: FontWeight.bold),
               ),
               trailing: Column(
