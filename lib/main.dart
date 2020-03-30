@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:patient_care/pages/intro.dart';
-import 'package:patient_care/testmenu.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() => runApp(MyApp());
 
@@ -19,11 +19,14 @@ class MyApp extends StatelessWidget {
         fontFamily: 'OpenSans',
         // Define the default TextTheme. Use this to specify the default
         // text styling for headlines, titles, bodies of text, and more.
-        textTheme: TextTheme(
-          headline5: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
-          headline6: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
-          bodyText2: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
-        ),
+        // textTheme: TextTheme(
+        //   headline5: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
+        //   headline6: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
+        //   bodyText2: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
+        // ),
+        textTheme: GoogleFonts.baskervvilleTextTheme(
+      Theme.of(context).textTheme,
+    ),
       ),
   home: IntroPage(),
   // home: ExampleApp(),

@@ -2,28 +2,28 @@
 class Patient {
     String firstName;
     String lastName;
-    int age;
-    String photo;
     String conditions;
+    String status;
+    String reportDate;
     String read;
 
 
     Patient({
         this.firstName,
         this.lastName,
-        this.age,
-        this.photo,
         this.conditions,
+        this.status,
+        this.reportDate,
         this.read
     });
 
     factory Patient.fromJson(Map<String, dynamic> json) {
       return Patient(
-        firstName: json["first_name"],
-        lastName: json["last_name"],
-        age: json["age"],
-        photo:json["photo"],
+        firstName: json["patient_first_name"],
+        lastName: json["patient_last_name"],
         conditions:json["conditions"],
+        status: json["status"],
+        reportDate: json["report_date"],
         read: json['_seen']
     );
     } 

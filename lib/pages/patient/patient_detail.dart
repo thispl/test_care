@@ -98,7 +98,7 @@ class PatientDetail extends StatelessWidget {
                                 textAlign: TextAlign.center,
                                 style: TextStyle(fontSize: 12.0)),
                             subtitle: Text(
-                              '${patient.age}'.toUpperCase(),
+                              'age'.toUpperCase(),
                               textAlign: TextAlign.center,
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
@@ -110,7 +110,7 @@ class PatientDetail extends StatelessWidget {
                                 textAlign: TextAlign.center,
                                 style: TextStyle(fontSize: 12.0)),
                             subtitle: Text(
-                              '${patient.age}'.toUpperCase(),
+                              '${patient.status}'.toUpperCase(),
                               textAlign: TextAlign.center,
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
@@ -122,7 +122,7 @@ class PatientDetail extends StatelessWidget {
                                 textAlign: TextAlign.center,
                                 style: TextStyle(fontSize: 12.0)),
                             subtitle: Text(
-                              '${patient.age}'.toUpperCase(),
+                              'doctor'.toUpperCase(),
                               textAlign: TextAlign.center,
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
@@ -194,6 +194,7 @@ Container _buildRemark(context) {
               ],
             ),
           ]),
-        )),
+        )
+        ),
   );
 }
