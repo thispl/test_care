@@ -5,12 +5,12 @@ import 'package:patient_care/pages/login_page.dart';
 
 
 
-class MainPage extends StatefulWidget {
+class Dashboard extends StatefulWidget {
   @override
-  _MainPageState createState() => _MainPageState();
+  _DashboardState createState() => _DashboardState();
 }
 
-class _MainPageState extends State<MainPage> {
+class _DashboardState extends State<Dashboard> {
   
   final List<List<double>> charts = [
     [
@@ -252,7 +252,7 @@ class _MainPageState extends State<MainPage> {
           crossAxisCount: 2,
           crossAxisSpacing: 12.0,
           mainAxisSpacing: 12.0,
-          padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
           children: <Widget>[
             _buildTile(
               Padding(
@@ -265,24 +265,44 @@ class _MainPageState extends State<MainPage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text('Total Reports',
-                              style: TextStyle(color: Colors.blueAccent)),
-                          Text('265K',
+                          Text('Project',
+                              style: TextStyle(color: Colors.grey)),
+                          Text('Baker',
                               style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.w700,
                                   fontSize: 34.0))
                         ],
                       ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text('Status',
+                              style: TextStyle(color: Colors.blueAccent)),
+                          Text('In Progress',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 16.0))
+                        ],
+                      ),
                       Material(
-                          color: Colors.blue,
-                          borderRadius: BorderRadius.circular(24.0),
+                          color: Colors.teal,
+                          borderRadius: BorderRadius.circular(1.0),
                           child: Center(
                               child: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Icon(Icons.timeline,
-                                color: Colors.white, size: 30.0),
-                          )))
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text('12%',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w700,
+                                fontSize: 32.0
+                                )
+                              ),
+                          )
+                          )
+                          )
                     ]),
               ),
             ),

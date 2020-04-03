@@ -38,32 +38,26 @@ class _SettingsState extends State<Settings> {
             body: Stack(
               children: <Widget>[
                 Container(
-                  constraints: BoxConstraints.expand(height: 200.0),
                   decoration: BoxDecoration(
-                      image: DecorationImage(
-                    image: AssetImage('assets/settings.jpg'),
-                    fit: BoxFit.cover,
-                    // colorFilter: ColorFilter.mode(
-                    //     Colors.white.withOpacity(0.3), BlendMode.dstATop),
-                  )),
-                  child: BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
-                    child: Container(
-                      color: Colors.black.withOpacity(0.0),
-                      child: Center(
-                        child: Text(
-                          'John Doe',
-                          style: GoogleFonts.baskervville(
-                            textStyle: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 48.0),
-                          ),
-                        ),
+                      gradient: LinearGradient(colors: [
+                    Colors.teal.shade100,
+                    Colors.teal.shade200,
+                    Colors.teal.shade300,
+                    Colors.teal.shade400
+                  ]))),
+                  Positioned(
+                    top: 50.0,
+                    left: 100.0,
+                    child: Text(
+                      'John Doe',
+                      style: GoogleFonts.baskervville(
+                        textStyle: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 48.0),
                       ),
                     ),
                   ),
-                ),
               ],
             )),
         Container(

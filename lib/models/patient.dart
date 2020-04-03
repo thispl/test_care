@@ -5,7 +5,7 @@ class Patient {
     String conditions;
     String status;
     String reportDate;
-    String read;
+    int read;
 
 
     Patient({
@@ -24,7 +24,7 @@ class Patient {
         conditions:json["conditions"],
         status: json["status"],
         reportDate: json["report_date"],
-        read: json['_seen']
+        read: json['_read']
     );
     } 
 }

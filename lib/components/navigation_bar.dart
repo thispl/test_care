@@ -20,7 +20,7 @@ class _BtmNavigationBarState extends State<BtmNavigationBar> {
   [
     PatientList(),
     ResearchList(),
-    MainPage(),
+    Dashboard(),
     KBList(),
     Settings()
   ];

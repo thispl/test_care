@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
 Future<List<Patient>> fetchPatient([String filter]) async {
-  String url = 'https://mcw.teamproit.com/api/resource/Order?fields=["_seen","patient_first_name","patient_last_name","conditions","status"]&order_by=_seen%20asc';
+  String url = 'https://mcw.teamproit.com/api/resource/Order?fields=["_read","patient_first_name","patient_last_name","conditions","status","report_date"]&order_by=_read%20asc';
   
   if(filter != null){
     url = url + "&filters=[$filter]";
@@ -24,5 +24,6 @@ Future<List<Patient>> fetchPatient([String filter]) async {
   list = data.map<Patient>((json) => Patient.fromJson(json)).toList();
   return list; 
 }
+
 
 

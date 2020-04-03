@@ -6,7 +6,7 @@ import 'package:patient_care/models/patient.dart';
 import '../modules_menu.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
-import 'package:badges/badges.dart';
+// import 'package:badges/badges.dart';
 import 'package:patient_care/components/utils.dart';
 
 class PatientList extends StatefulWidget {
@@ -14,84 +14,83 @@ class PatientList extends StatefulWidget {
   _PatientListState createState() => _PatientListState();
 }
 
-class _PatientListState extends State<PatientList> {
+class _PatientListState extends State<PatientList>
+    with SingleTickerProviderStateMixin {
   int count;
   String filter;
 
+  TabController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TabController(length: 2, vsync: this);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        appBar: AppBar(
-            bottom: TabBar(
-              indicatorColor: Colors.white,
+    return Scaffold(
+      appBar: AppBar(
+          automaticallyImplyLeading: false,
+          elevation: 2.0,
+          backgroundColor: Colors.teal,
+          leading: IconButton(
+            icon: Icon(Icons.home),
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (BuildContext context) => ModulesMenu()));
+            },
+          ),
+          title: Text(
+            'Patients',
+            style: GoogleFonts.baskervville(
+              textStyle:
+                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            ),
+          ),
+          actions: <Widget>[
+            // action button
+          ]),
+      body: SafeArea(
+          child: ListView(
+        children: <Widget>[
+          Card(
+            child: ListTile(
+              title: const Text('Some information'),
+            ),
+          ),
+          Container(
+            decoration: BoxDecoration(color: Colors.teal),
+            child: TabBar(
+              controller: _controller,
+              indicatorColor: Colors.teal,
               tabs: [
-                Row(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text('Completed',
-                          style:
-                              TextStyle(color: Colors.white, fontSize: 16.0)),
-                    ),
-                    Badge(
-                      badgeColor: Colors.white,
-                      shape: BadgeShape.circle,
-                      borderRadius: 25,
-                      toAnimate: false,
-                      badgeContent: Text(count.toString(),
-                          style: TextStyle(color: Colors.black)),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text('In Progress',
-                          style:
-                              TextStyle(color: Colors.white, fontSize: 16.0)),
-                    ),
-                    Badge(
-                      badgeColor: Colors.white,
-                      shape: BadgeShape.circle,
-                      borderRadius: 25,
-                      toAnimate: false,
-                      badgeContent: Text(count.toString(),
-                          style: TextStyle(color: Colors.black)),
-                    ),
-                  ],
-                )
+                Tab(child: Text('Completed',
+                      style: TextStyle(color: Colors.white, fontSize: 16.0)),),
+                Tab(child: Text('In Progress',
+                      style: TextStyle(color: Colors.white, fontSize: 16.0)),),
+                // Padding(
+                //   padding: const EdgeInsets.all(8.0),
+                //   child: Text('Completed',
+                //       style: TextStyle(color: Colors.black, fontSize: 16.0)),
+                // ),
+                // Padding(
+                //   padding: const EdgeInsets.all(8.0),
+                //   child: Text('In Progress',
+                //       style: TextStyle(color: Colors.black, fontSize: 16.0)),
+                // )
               ],
             ),
-            automaticallyImplyLeading: false,
-            elevation: 2.0,
-            backgroundColor: Colors.teal,
-            leading: IconButton(
-              icon: Icon(Icons.home),
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (BuildContext context) => ModulesMenu()));
-              },
-            ),
-            title: Text(
-              'Patients',
-              style: GoogleFonts.baskervville(
-                textStyle:
-                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-              ),
-            ),
-            actions: <Widget>[
-              // action button
+          ),
+          Container(
+            height: 250.0,
+            child: TabBarView(controller: _controller, children: [
+              buildCompletedList(filter = '["status", "=", "Reported"]'),
+              buildPendingList(filter = '["status", "=", "In Progress"]'),
             ]),
-        body: SafeArea(
-          child: TabBarView(children: [
-            buildCompletedList(filter = '["status", "=", "Reported"]'),
-            buildPendingList(filter = '["status", "=", "In Progress"]'),
-          ]),
-        ),
-      ),
+          )
+        ],
+      )),
     );
   }
 
@@ -274,8 +273,17 @@ _isSeen(patient, position) {
   return seen;
 }
 
-
 void _onTapItem(BuildContext context, Patient patient) {
   Navigator.of(context).push(MaterialPageRoute(
       builder: (BuildContext context) => PatientDetail(patient: patient)));
 }
+
+// Badge(
+//   badgeColor: Colors.white,
+//   shape: BadgeShape.circle,
+//   borderRadius: 25,
+//   toAnimate: false,
+//   badgeContent: Text(count.toString(),
+//       style: TextStyle(color: Colors.black)),
+// ),
+// ],
