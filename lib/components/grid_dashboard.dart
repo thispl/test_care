@@ -82,7 +82,6 @@ class GridDashboard extends StatelessWidget {
             height: 20,
           ),
           Flexible(
-            
             flex: 1,
             fit: FlexFit.tight,
             child: GridView.count(
@@ -121,9 +120,11 @@ class GridDashboard extends StatelessWidget {
                               flex: 1,
                               child: Container(
                                   color: Colors.black,
-                                  child: Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(4.0),
                                     child: Text(
                                       data.title,
+                                      softWrap: true,
                                       style: GoogleFonts.openSans(
                                           textStyle: TextStyle(
                                               color: Colors.white,
@@ -155,56 +156,59 @@ class GridDashboard extends StatelessWidget {
                 crossAxisSpacing: 12,
                 mainAxisSpacing: 12,
                 children: list2.map((data) {
-                  Spacer(flex: 3,);
                   return GestureDetector(
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (BuildContext context) =>
                               _children[data.index]));
                     },
-                    child: Container(
-                      decoration: ShapeDecoration(
-                          shape: PolygonBorder(
-                              sides: 8,
-                              borderRadius: 5.0,
-                              rotate: 25.0,
-                              border: BorderSide(
-                                  color: Colors.grey.shade700, width: 2))),
-                      child: ClipPolygon(
-                        child: Column(
-                          children: <Widget>[
-                            Flexible(
-                              flex: 2,
-                              child: Container(
-                                  color: Colors.grey,
-                                  child: Center(
-                                    child: _icons[data.index],
-                                  )),
-                            ),
-                            Flexible(
-                              flex: 1,
-                              child: Container(
-                                  color: Colors.black,
-                                  child: Center(
+                    child: Row(
+                      children: <Widget>[
+                        SizedBox(width: 10,),
+                        Container(
+                          decoration: ShapeDecoration(
+                              shape: PolygonBorder(
+                                  sides: 8,
+                                  borderRadius: 5.0,
+                                  rotate: 25.0,
+                                  border: BorderSide(
+                                      color: Colors.grey.shade700, width: 2))),
+                          child: ClipPolygon(
+                            child: Column(
+                              children: <Widget>[
+                                Flexible(
+                                  flex: 2,
+                                  child: Container(
+                                      color: Colors.grey,
+                                      child: Center(
+                                        child: _icons[data.index],
+                                      )),
+                                ),
+                                Flexible(
+                                  flex: 1,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(4.0),
                                     child: Text(
                                       data.title,
                                       style: GoogleFonts.openSans(
                                           textStyle: TextStyle(
                                               color: Colors.white,
-                                              fontSize: 14,
+                                              fontSize: 12,
                                               fontWeight: FontWeight.w600)),
                                     ),
-                                  )),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ],
+                            boxShadows: [
+                              PolygonBoxShadow(color: Colors.black, elevation: 5.0),
+                            ],
+                            sides: 8,
+                            rotate: 25.0,
+                            borderRadius: 5.0,
+                          ),
                         ),
-                        boxShadows: [
-                          PolygonBoxShadow(color: Colors.black, elevation: 5.0),
-                        ],
-                        sides: 8,
-                        rotate: 25.0,
-                        borderRadius: 5.0,
-                      ),
+                      ],
                     ),
                   );
                 }).toList()),
