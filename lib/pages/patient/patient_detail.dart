@@ -84,7 +84,7 @@ class PatientDetail extends StatelessWidget {
                   ),
                   Text(
                     '${patient.firstName}',
-                    style: Theme.of(context).textTheme.headline6,
+                    style: Theme.of(context).textTheme.headline,
                   ),
                   Text("In Progress"),
                   Container(
@@ -181,7 +181,7 @@ Container _buildRemark(context) {
                 ),
                 Text(
                   "Lorem ipsum dolor sit amet",
-                  style: Theme.of(context).textTheme.headline6,
+                  style: Theme.of(context).textTheme.headline,
                 ),
                 Divider(),
                 SizedBox(

@@ -15,7 +15,7 @@ class PatientList extends StatefulWidget {
 }
 
 class _PatientListState extends State<PatientList> {
-  int count;
+  int count = 0;
   String filter;
 
   @override

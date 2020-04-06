@@ -18,7 +18,7 @@ class GridMenu extends StatelessWidget {
     title: "Research",
   );
   Items item3 = new Items(
-    title: "Knowledgebase",
+    title: "Knowledge \n Base",
   );
   Items item4 = new Items(
     title: "Payment",
@@ -129,6 +129,7 @@ class GridMenu extends StatelessWidget {
                       padding: const EdgeInsets.all(4.0),
                       child: Text(
                         title,
+                        textAlign: TextAlign.center,
                         softWrap: true,
                         style: GoogleFonts.openSans(
                             textStyle: TextStyle(
