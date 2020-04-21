@@ -6,7 +6,7 @@ import 'package:patient_care/models/patient.dart';
 import '../modules_menu.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
-import 'package:badges/badges.dart';
+// import 'package:badges/badges.dart';
 import 'package:patient_care/components/utils.dart';
 
 class PatientList extends StatefulWidget {
@@ -14,84 +14,156 @@ class PatientList extends StatefulWidget {
   _PatientListState createState() => _PatientListState();
 }
 
-class _PatientListState extends State<PatientList> {
-  int count = 0;
+class _PatientListState extends State<PatientList>
+    with SingleTickerProviderStateMixin {
+  int count;
   String filter;
+
+  TabController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TabController(length: 2, vsync: this);
+  }
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        appBar: AppBar(
-            bottom: TabBar(
+    return Scaffold(
+      appBar: AppBar(
+          automaticallyImplyLeading: false,
+          elevation: 2.0,
+          backgroundColor: Colors.teal,
+          leading: IconButton(
+            icon: Icon(Icons.home),
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (BuildContext context) => ModulesMenu()));
+            },
+          ),
+          title: Text(
+            'Patients',
+            style: GoogleFonts.baskervville(
+              textStyle:
+                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            ),
+          ),
+          actions: <Widget>[
+            // action button
+          ]),
+      body: SafeArea(
+          child: ListView(
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Column(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Material(
+                      elevation: 5.0,
+                      shape: CircleBorder(),
+                      color: Colors.teal.shade50,
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Center(
+                          child: Text('12',
+                              style: TextStyle(color: Colors.black, fontSize: 20.0)),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom:8.0),
+                    child: Text('New',
+                              style: TextStyle(color: Colors.black, fontSize: 12.0,fontWeight: FontWeight.bold)),
+                  ),
+                ],
+              ),
+              SizedBox(width: 10.0,),
+              Column(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Material(
+                      elevation: 5.0,
+                      shape: CircleBorder(),
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Center(
+                          child: Text('12',
+                              style: TextStyle(color: Colors.black, fontSize: 20.0)),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom:8.0),
+                    child: Text('Read',
+                              style: TextStyle(color: Colors.black, fontSize: 12.0,fontWeight: FontWeight.normal)),
+                  ),
+                ],
+              ),
+              SizedBox(width: 10.0,),
+              Column(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Material(
+                      elevation: 5.0,
+                      shape: CircleBorder(),
+                      
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Center(
+                          child: Text('12',
+                              style: TextStyle(color: Colors.black, fontSize: 20.0)),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom:8.0),
+                    child: Text('In Progress',
+                              style: TextStyle(color: Colors.black, fontSize: 12.0,fontWeight: FontWeight.normal)),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          Container(
+            decoration: BoxDecoration(color: Colors.teal),
+            child: TabBar(
+              controller: _controller,
               indicatorColor: Colors.white,
               tabs: [
-                Row(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text('Completed',
-                          style:
-                              TextStyle(color: Colors.white, fontSize: 16.0)),
-                    ),
-                    Badge(
-                      badgeColor: Colors.white,
-                      shape: BadgeShape.circle,
-                      borderRadius: 25,
-                      toAnimate: false,
-                      badgeContent: Text(count.toString(),
-                          style: TextStyle(color: Colors.black)),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text('In Progress',
-                          style:
-                              TextStyle(color: Colors.white, fontSize: 16.0)),
-                    ),
-                    Badge(
-                      badgeColor: Colors.white,
-                      shape: BadgeShape.circle,
-                      borderRadius: 25,
-                      toAnimate: false,
-                      badgeContent: Text(count.toString(),
-                          style: TextStyle(color: Colors.black)),
-                    ),
-                  ],
-                )
+                Tab(child: Text('Completed',
+                      style: TextStyle(color: Colors.white, fontSize: 16.0)),),
+                Tab(child: Text('In Progress',
+                      style: TextStyle(color: Colors.white, fontSize: 16.0)),),
+                // Padding(
+                //   padding: const EdgeInsets.all(8.0),
+                //   child: Text('Completed',
+                //       style: TextStyle(color: Colors.black, fontSize: 16.0)),
+                // ),
+                // Padding(
+                //   padding: const EdgeInsets.all(8.0),
+                //   child: Text('In Progress',
+                //       style: TextStyle(color: Colors.black, fontSize: 16.0)),
+                // )
               ],
             ),
-            automaticallyImplyLeading: false,
-            elevation: 2.0,
-            backgroundColor: Colors.teal,
-            leading: IconButton(
-              icon: Icon(Icons.home),
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (BuildContext context) => ModulesMenu()));
-              },
-            ),
-            title: Text(
-              'Patients',
-              style: GoogleFonts.baskervville(
-                textStyle:
-                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-              ),
-            ),
-            actions: <Widget>[
-              // action button
+          ),
+          Container(
+            height: 550.0,
+            child: TabBarView(controller: _controller, children: [
+              buildCompletedList(filter = '["status", "=", "Reported"]'),
+              buildPendingList(filter = '["status", "=", "In Progress"]'),
             ]),
-        body: SafeArea(
-          child: TabBarView(children: [
-            buildCompletedList(filter = '["status", "=", "Reported"]'),
-            buildPendingList(filter = '["status", "=", "In Progress"]'),
-          ]),
-        ),
-      ),
+          )
+        ],
+      )),
     );
   }
 
@@ -274,8 +346,17 @@ _isSeen(patient, position) {
   return seen;
 }
 
-
 void _onTapItem(BuildContext context, Patient patient) {
   Navigator.of(context).push(MaterialPageRoute(
       builder: (BuildContext context) => PatientDetail(patient: patient)));
 }
+
+// Badge(
+//   badgeColor: Colors.white,
+//   shape: BadgeShape.circle,
+//   borderRadius: 25,
+//   toAnimate: false,
+//   badgeContent: Text(count.toString(),
+//       style: TextStyle(color: Colors.black)),
+// ),
+// ],

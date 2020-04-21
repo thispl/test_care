@@ -108,25 +108,26 @@ class GridMenu extends StatelessWidget {
             shape: PolygonBorder(
                 sides: 8,
                 borderRadius: 5.0,
-                rotate: 25.0,
+                rotate: 22.5,
                 border: BorderSide(color: Colors.grey.shade700, width: 2))),
         child: ClipPolygon(
           child: Column(
             children: <Widget>[
-              Flexible(
-                flex: 2,
+              Expanded(
+                flex: 7,
                 child: Container(
                     color: Colors.grey,
                     child: Center(
                       child: _icons,
                     )),
               ),
-              Flexible(
-                flex: 1,
+              Expanded(
+                // alignment: Alignment.bottomCenter,
+                flex: 3,
                 child: Container(
                     color: Colors.black,
                     child: Padding(
-                      padding: const EdgeInsets.all(4.0),
+                      padding: const EdgeInsets.all(3.0),
                       child: Text(
                         title,
                         textAlign: TextAlign.center,
@@ -145,7 +146,7 @@ class GridMenu extends StatelessWidget {
             PolygonBoxShadow(color: Colors.black, elevation: 5.0),
           ],
           sides: 8,
-          rotate: 25.0,
+          rotate: 22.5,
           borderRadius: 5.0,
         ),
       ),
