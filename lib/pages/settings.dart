@@ -38,26 +38,24 @@ class _SettingsState extends State<Settings> {
             body: Stack(
               children: <Widget>[
                 Container(
-                  decoration: BoxDecoration(
-                      gradient: LinearGradient(colors: [
-                    Colors.teal.shade100,
-                    Colors.teal.shade200,
-                    Colors.teal.shade300,
-                    Colors.teal.shade400
-                  ]))),
-                  Positioned(
-                    top: 50.0,
-                    left: 100.0,
-                    child: Text(
-                      'John Doe',
-                      style: GoogleFonts.baskervville(
-                        textStyle: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 48.0),
-                      ),
-                    ),
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(colors: [
+                  Colors.teal.shade100,
+                  Colors.teal.shade200,
+                  Colors.teal.shade300,
+                  Colors.teal.shade400
+                ]))),
+                Positioned(
+                  top: 50.0,
+                  left: 100.0,
+                  child: Text(
+                    'John Doe',
+                    style: TextStyle(
+                          color: Colors.black,
+                          // fontWeight: FontWeight.bold,
+                          fontSize: 48.0),
                   ),
+                ),
               ],
             )),
         Container(
@@ -100,12 +98,10 @@ Container listViewWidget(List<LicenseInfo> licenseInfo) {
                   return ListTile(
                     title: Text(
                       '${licenseInfo[position].title ?? ''}',
-                      style: GoogleFonts.baskervville(
-                        textStyle: TextStyle(
-                            fontSize: 18.0,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold),
-                      ),
+                      style: TextStyle(
+                          fontSize: 18.0,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold),
                     ),
                     onTap: () => _onTapItem(context, licenseInfo[position]),
                   );

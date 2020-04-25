@@ -2,18 +2,20 @@
 class Patient {
     String firstName;
     String lastName;
-    String conditions;
+    String patientId;
     String status;
     String reportDate;
+    String report;
     int read;
 
 
     Patient({
         this.firstName,
         this.lastName,
-        this.conditions,
+        this.patientId,
         this.status,
         this.reportDate,
+        this.report,
         this.read
     });
 
@@ -21,9 +23,10 @@ class Patient {
       return Patient(
         firstName: json["patient_first_name"],
         lastName: json["patient_last_name"],
-        conditions:json["conditions"],
+        patientId:json["name"],
         status: json["status"],
         reportDate: json["report_date"],
+        report: json["report"],
         read: json['_read']
     );
     } 

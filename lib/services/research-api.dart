@@ -19,7 +19,7 @@ Future<List<Research>> fetchResearch() async {
 }
 
 Future<String> getToken() async {
-  String url = 'https://mcw.teamproit.com/api/resource/Settings/Settings';
+  String url = 'https://mcw-gspmc.tk/api/resource/Settings/Settings';
 
   SharedPreferences pref = await SharedPreferences.getInstance();
   Map<String, String> requestHeaders = {

@@ -43,12 +43,10 @@ class _ModulesMenuState extends State<ModulesMenu> {
                   ),
                   Text(
                     "John Doe's Modules",
-                    style: GoogleFonts.baskervville(
-                      textStyle: TextStyle(
+                    style: TextStyle(
                           color: Colors.white,
-                          fontWeight: FontWeight.bold,
+                          // fontWeight: FontWeight.bold,
                           fontSize: 32.0),
-                    ),
                   ),
                 ],
               ),

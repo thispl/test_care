@@ -79,7 +79,7 @@ TextEditingController emailcontroller = new TextEditingController();
 TextEditingController passwordcontroller = new TextEditingController();
 
 signin(String email,String password) async {
-  var url = 'https://mcw.teamproit.com/api/method/login';
+  var url = 'https://mcw-gspmc.tk/api/method/login';
   Map data = {
     'usr':email,
     'pwd':password
@@ -94,6 +94,7 @@ signin(String email,String password) async {
   SharedPreferences pref = await SharedPreferences.getInstance();
   var response = await http.post(url,body: data,headers: requestHeaders);
   if(response.statusCode == 200){
+    print(response.body);
     jsonData = json.decode(response.body);
     setState(() {
       _isLoading = false;
@@ -107,10 +108,24 @@ signin(String email,String password) async {
   }
   else{
     if(response.statusCode == 401){
-      Alert(context: context, title: "Authentication Failed", desc: 'Check Username/Password')
-        .show();
+      Alert(
+      context: context,
+      type: AlertType.error,
+      title: "Authentication Failed",
+      desc: "Check Username/Password",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "Retry",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
+          width: 120,
+        )
+      ],
+    ).show();
+        
     }
-    
     // print(response.statusCode);
   }
 }

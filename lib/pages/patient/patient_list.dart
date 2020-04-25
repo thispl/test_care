@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:patient_care/components/constants.dart';
 import 'package:patient_care/pages/patient/patient_detail.dart';
+import 'package:patient_care/pages/patient/pdf_service.dart';
 import 'package:patient_care/services/patient-api.dart';
 import 'package:patient_care/models/patient.dart';
 import '../modules_menu.dart';
@@ -53,6 +55,7 @@ class _PatientListState extends State<PatientList>
           ]),
       body: SafeArea(
           child: ListView(
+        physics: const NeverScrollableScrollPhysics(),
         children: <Widget>[
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -69,19 +72,25 @@ class _PatientListState extends State<PatientList>
                         padding: const EdgeInsets.all(16.0),
                         child: Center(
                           child: Text('12',
-                              style: TextStyle(color: Colors.black, fontSize: 20.0)),
+                              style: TextStyle(
+                                  color: Colors.black, fontSize: 20.0)),
                         ),
                       ),
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(bottom:8.0),
+                    padding: const EdgeInsets.only(bottom: 8.0),
                     child: Text('New',
-                              style: TextStyle(color: Colors.black, fontSize: 12.0,fontWeight: FontWeight.bold)),
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 12.0,
+                            fontWeight: FontWeight.bold)),
                   ),
                 ],
               ),
-              SizedBox(width: 10.0,),
+              SizedBox(
+                width: 10.0,
+              ),
               Column(
                 children: <Widget>[
                   Padding(
@@ -93,19 +102,25 @@ class _PatientListState extends State<PatientList>
                         padding: const EdgeInsets.all(12.0),
                         child: Center(
                           child: Text('12',
-                              style: TextStyle(color: Colors.black, fontSize: 20.0)),
+                              style: TextStyle(
+                                  color: Colors.black, fontSize: 20.0)),
                         ),
                       ),
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(bottom:8.0),
+                    padding: const EdgeInsets.only(bottom: 8.0),
                     child: Text('Read',
-                              style: TextStyle(color: Colors.black, fontSize: 12.0,fontWeight: FontWeight.normal)),
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 12.0,
+                            fontWeight: FontWeight.normal)),
                   ),
                 ],
               ),
-              SizedBox(width: 10.0,),
+              SizedBox(
+                width: 10.0,
+              ),
               Column(
                 children: <Widget>[
                   Padding(
@@ -113,20 +128,23 @@ class _PatientListState extends State<PatientList>
                     child: Material(
                       elevation: 5.0,
                       shape: CircleBorder(),
-                      
                       child: Padding(
                         padding: const EdgeInsets.all(12.0),
                         child: Center(
                           child: Text('12',
-                              style: TextStyle(color: Colors.black, fontSize: 20.0)),
+                              style: TextStyle(
+                                  color: Colors.black, fontSize: 20.0)),
                         ),
                       ),
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(bottom:8.0),
+                    padding: const EdgeInsets.only(bottom: 8.0),
                     child: Text('In Progress',
-                              style: TextStyle(color: Colors.black, fontSize: 12.0,fontWeight: FontWeight.normal)),
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 12.0,
+                            fontWeight: FontWeight.normal)),
                   ),
                 ],
               ),
@@ -138,25 +156,19 @@ class _PatientListState extends State<PatientList>
               controller: _controller,
               indicatorColor: Colors.white,
               tabs: [
-                Tab(child: Text('Completed',
-                      style: TextStyle(color: Colors.white, fontSize: 16.0)),),
-                Tab(child: Text('In Progress',
-                      style: TextStyle(color: Colors.white, fontSize: 16.0)),),
-                // Padding(
-                //   padding: const EdgeInsets.all(8.0),
-                //   child: Text('Completed',
-                //       style: TextStyle(color: Colors.black, fontSize: 16.0)),
-                // ),
-                // Padding(
-                //   padding: const EdgeInsets.all(8.0),
-                //   child: Text('In Progress',
-                //       style: TextStyle(color: Colors.black, fontSize: 16.0)),
-                // )
+                Tab(
+                  child: Text('Completed',
+                      style: TextStyle(color: Colors.white, fontSize: 16.0)),
+                ),
+                Tab(
+                  child: Text('In Progress',
+                      style: TextStyle(color: Colors.white, fontSize: 16.0)),
+                ),
               ],
             ),
           ),
           Container(
-            height: 550.0,
+            height: 1000.0,
             child: TabBarView(controller: _controller, children: [
               buildCompletedList(filter = '["status", "=", "Reported"]'),
               buildPendingList(filter = '["status", "=", "In Progress"]'),
@@ -214,7 +226,7 @@ class _PatientListState extends State<PatientList>
                               ),
                             ),
                             subtitle: Text(
-                              '${patient[position].conditions}',
+                              '${patient[position].patientId}',
                               style: GoogleFonts.playfairDisplay(
                                 textStyle: TextStyle(
                                   color: Colors.black,
@@ -222,27 +234,54 @@ class _PatientListState extends State<PatientList>
                                 ),
                               ),
                             ),
-                            trailing: Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              mainAxisAlignment: MainAxisAlignment.center,
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
-                                Text(
-                                  _isSeen(patient, position) ? 'READ' : 'NEW',
-                                  style: GoogleFonts.lora(
-                                    textStyle: TextStyle(
-                                        color: Colors.grey,
-                                        fontWeight: FontWeight.bold),
-                                  ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Text(
+                                      _isSeen(patient, position)
+                                          ? 'READ'
+                                          : 'NEW',
+                                      style: GoogleFonts.lora(
+                                        textStyle: TextStyle(
+                                            color: Colors.grey,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                    Text(
+                                      getFormatted(
+                                          '${patient[position].reportDate}'),
+                                      style: GoogleFonts.lora(
+                                        textStyle: TextStyle(
+                                            color: Colors.grey,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                Text(
-                                  getFormatted(
-                                      '${patient[position].reportDate}'),
-                                  style: GoogleFonts.lora(
-                                    textStyle: TextStyle(
-                                        color: Colors.grey,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: <Widget>[
+                                    PopupMenuButton<String>(
+                                        onSelected: (value) {
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (BuildContext context) =>
+                                                  PDFService(patient[position]
+                                                      .report)));
+                                    }, itemBuilder: (BuildContext context) {
+                                      return Constants.choices
+                                          .map((String choice) {
+                                        return PopupMenuItem<String>(
+                                            value: choice,
+                                            child: Text('Show Report'));
+                                      }).toList();
+                                    }),
+                                  ],
+                                )
                               ],
                             ),
                             onTap: () => _onTapItem(context, patient[position]),
@@ -256,6 +295,10 @@ class _PatientListState extends State<PatientList>
             }
           }),
     );
+  }
+
+  void choiceAction(String value) {
+    print(value);
   }
 
   Container buildPendingList(String filter) {
@@ -303,7 +346,7 @@ class _PatientListState extends State<PatientList>
                               ),
                             ),
                             subtitle: Text(
-                              '${patient[position].conditions}',
+                              '${patient[position].patientId}',
                               style: GoogleFonts.playfairDisplay(
                                 textStyle: TextStyle(
                                   color: Colors.black,

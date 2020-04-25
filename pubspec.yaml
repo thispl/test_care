@@ -41,6 +41,9 @@ dependencies:
   intl: ^0.16.1
   sphere: ^0.0.4
   onesignal_flutter: ^2.3.4
+  flutter_plugin_pdf_viewer: ^1.0.7
+  video_player:
+
 
 
 

@@ -142,7 +142,7 @@ class _PatientListState extends State<PatientList> {
                               ),
                             ),
                             subtitle: Text(
-                              '${patient[position].conditions}',
+                              '${patient[position].patientId}',
                               style: GoogleFonts.playfairDisplay(
                                 textStyle: TextStyle(
                                   color: Colors.black,
@@ -231,7 +231,7 @@ class _PatientListState extends State<PatientList> {
                               ),
                             ),
                             subtitle: Text(
-                              '${patient[position].conditions}',
+                              '${patient[position].patientId}',
                               style: GoogleFonts.playfairDisplay(
                                 textStyle: TextStyle(
                                   color: Colors.black,

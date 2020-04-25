@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
 Future<List<LicenseInfo>> fetchLicenseInfo() async {
-  String url = 'https://mcw.teamproit.com/api/resource/License Information?fields=["title","description"]';
+  String url = 'https://mcw-gspmc.tk/api/resource/License Information?fields=["title","description"]';
   SharedPreferences pref = await SharedPreferences.getInstance();
   List<LicenseInfo> list;
  

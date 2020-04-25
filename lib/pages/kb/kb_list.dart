@@ -49,16 +49,6 @@ class _KBListState extends State<KBList> {
                     fontSize: 20.0)),
             actions: <Widget>[
               // action button
-              IconButton(
-                icon: Icon(Icons.search),
-                onPressed: () {},
-              ),
-              IconButton(
-                icon: Icon(Icons.exit_to_app),
-                onPressed: () {
-                  Navigator.pushNamed(context, '/dashboard');
-                },
-              ),
             ]),
         body: SafeArea(
           child: error

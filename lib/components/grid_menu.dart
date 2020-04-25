@@ -132,11 +132,10 @@ class GridMenu extends StatelessWidget {
                         title,
                         textAlign: TextAlign.center,
                         softWrap: true,
-                        style: GoogleFonts.openSans(
-                            textStyle: TextStyle(
+                        style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 12,
-                                fontWeight: FontWeight.w600)),
+                                fontWeight: FontWeight.w600)
                       ),
                     )),
               ),

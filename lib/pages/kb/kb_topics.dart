@@ -43,7 +43,6 @@ class KBTopics extends StatelessWidget {
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage("assets/kbtopics/bio-informatics.jpg"),
-                      
                       fit: BoxFit.cover,
                     ),
                     borderRadius: BorderRadius.circular(12),
