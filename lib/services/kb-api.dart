@@ -42,7 +42,7 @@ import 'dart:convert';
 
   Future<List<Article>> fetchArticle() async {
     try {
-      String url = 'https://mcw-gspmc.tk/api/resource/Article?fields=["*"]';
+      String url = 'https://mcw-gspmc.tk/api/resource/Article?fields=["article_name","topic","description","video","video_url"]';
       EncryptedSharedPreferences pref = EncryptedSharedPreferences();
       String cookie = await pref.getString('cookie');
       Map<String, String> requestHeaders = {
@@ -55,7 +55,6 @@ import 'dart:convert';
       // }
       
       final response = await http.get(url, headers: requestHeaders);
-
       if (response.statusCode == 200) {
         List<Article> list = parseArticles(response.body);
         return list;

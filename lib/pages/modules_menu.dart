@@ -19,7 +19,7 @@ class ModulesMenu extends StatefulWidget {
 class _ModulesMenuState extends State<ModulesMenu> {
   EncryptedSharedPreferences pref;
   String username;
-   @override
+  @override
   void initState() {
     super.initState();
     getUserInfo();
@@ -27,7 +27,7 @@ class _ModulesMenuState extends State<ModulesMenu> {
 
   getUserInfo() async {
     pref = EncryptedSharedPreferences();
-    String user = await pref.getString('username'); 
+    String user = await pref.getString('username');
     if (user != null) {
       setState(() {
         username = user;
@@ -69,12 +69,14 @@ class _ModulesMenuState extends State<ModulesMenu> {
                   SizedBox(
                     width: 10.0,
                   ),
-                  Text(
-                    "$username's Modules",
-                    style: TextStyle(
-                        color: Colors.white,
-                        // fontWeight: FontWeight.bold,
-                        fontSize: 32.0),
+                  Expanded(
+                    child: Text(
+                      "$username's Modules",
+                      style: TextStyle(
+                          color: Colors.white,
+                          // fontWeight: FontWeight.bold,
+                          fontSize: 28.0),
+                    ),
                   ),
                 ],
               ),
@@ -117,7 +119,7 @@ class _ModulesMenuState extends State<ModulesMenu> {
   }
 }
 
-Future<String> getUser() async{
+Future<String> getUser() async {
   SharedPreferences pref = await SharedPreferences.getInstance();
   String cookie = pref.getString('cookie');
   return 'Admin';

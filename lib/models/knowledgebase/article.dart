@@ -3,11 +3,13 @@ class Article {
     String topic;
     String description;
     String video;
+    String videoLink;
 
     Article({
         this.topic,
         this.description,
         this.video,
+        this.videoLink,
         this.articleName
     });
 
@@ -16,7 +18,9 @@ class Article {
         articleName: json["article_name"],
         topic: json["topic"],
         description: json["description"],
-        video:json["video"]
+        videoLink: json["video_url"],
+        video:json["video"],
+        
     );
     } 
 }

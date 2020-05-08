@@ -62,19 +62,29 @@ class _ResearchListState extends State<ResearchList> {
                     .show();
               }
               List<Research> research = snapshot.data;
-              return Container(
-                child: LiquidPullToRefresh(
-                  color: Colors.teal,
-                  key: _refreshIndicatorKey,
-                  onRefresh: _refresh,
-                  child: ListView.builder(
-                      itemCount: research.length,
-                      padding: const EdgeInsets.all(2.0),
-                      itemBuilder: (context, position) {
-                        return _buildList(research, position);
-                      }),
-                ),
-              );
+              return research.length <= 0
+                  ? Container(
+                      child: Center(
+                          child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.announcement),
+                          Text('No Data Found'),
+                        ],
+                      )),
+                    )
+                  : Container(
+                      child: LiquidPullToRefresh(
+                          color: Colors.teal,
+                          key: _refreshIndicatorKey,
+                          onRefresh: _refresh,
+                          child: ListView.builder(
+                              itemCount: research.length,
+                              padding: const EdgeInsets.all(2.0),
+                              itemBuilder: (context, position) {
+                                return _buildList(research, position);
+                              })),
+                    );
             } else {
               return Center(child: CircularProgressIndicator());
             }
@@ -86,7 +96,7 @@ class _ResearchListState extends State<ResearchList> {
     return Padding(
       padding: const EdgeInsets.all(6.0),
       child: InkWell(
-              child: Material(
+        child: Material(
           color: Colors.teal.shade50,
           borderRadius: BorderRadius.circular(10.0),
           child: Padding(
@@ -120,8 +130,7 @@ class _ResearchListState extends State<ResearchList> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text('Status', style: TextStyle(color: Colors.grey)),
-                      Text(
-                        '${research[position].status ?? ''}',
+                      Text('${research[position].status ?? ''}',
                           style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.w700,
@@ -135,7 +144,8 @@ class _ResearchListState extends State<ResearchList> {
                           child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          '${research[position].percentOfCompletion ?? ''}'+'%',
+                            '${research[position].percentOfCompletion ?? ''}' +
+                                '%',
                             style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w700,

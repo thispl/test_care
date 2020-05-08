@@ -2,11 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:patient_care/models/patient.dart';
 import 'package:patient_care/pages/modules_menu.dart';
 import 'package:patient_care/pages/patient/patient_list.dart';
+import 'package:patient_care/services/patient-api.dart';
 
-class PatientDetail extends StatelessWidget {
+class PatientDetail extends StatefulWidget {
   // static final String path = "lib/src/pages/profile/profile2.dart";
   final Patient patient;
   PatientDetail({Key key, @required this.patient}) : super(key: key);
+  
+  // markRead();
+
+  @override
+  _PatientDetailState createState() => _PatientDetailState();
+}
+
+class _PatientDetailState extends State<PatientDetail> {
+
+  @override
+  void initState() {
+    super.initState();
+    markRead(widget.patient.patientId);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +98,7 @@ class PatientDetail extends StatelessWidget {
                     height: 50.0,
                   ),
                   Text(
-                    '${patient.firstName}',
+                    '${widget.patient.firstName}',
                     style: Theme.of(context).textTheme.headline,
                   ),
                   Text("In Progress"),
@@ -110,7 +125,7 @@ class PatientDetail extends StatelessWidget {
                                 textAlign: TextAlign.center,
                                 style: TextStyle(fontSize: 12.0)),
                             subtitle: Text(
-                              '${patient.status}'.toUpperCase(),
+                              '${widget.patient.status}'.toUpperCase(),
                               textAlign: TextAlign.center,
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),

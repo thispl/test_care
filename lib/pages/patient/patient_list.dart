@@ -31,7 +31,11 @@ class _PatientListState extends State<PatientList> {
   @override
   void initState() {
     super.initState();
-    fetchCompletedPatient().then((completedPatientFromServer) {
+    loadList();
+  }
+
+  loadList(){
+      fetchCompletedPatient().then((completedPatientFromServer) {
       setState(() {
         isLoading = false;
         completedPatients = completedPatientFromServer;
@@ -137,7 +141,9 @@ class _PatientListState extends State<PatientList> {
 
   Container buildCompletedList(String filter) {
     _refresh() {
-      setState(() {});
+      setState(() {
+        loadList();
+      });
     }
 
     final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
@@ -274,7 +280,9 @@ class _PatientListState extends State<PatientList> {
 
   Container buildPendingList(String filter) {
     _refresh() {
-      setState(() {});
+      setState(() {
+        loadList();
+      });
     }
 
     final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
@@ -360,32 +368,13 @@ class _PatientListState extends State<PatientList> {
               ],
             ),
     );
-    // return Container(
-    //   child: FutureBuilder(
-    //       future: fetchCompletedPatient(filter),
-    //       builder: (context, snapshot) {
-    //         if (snapshot.connectionState == ConnectionState.done &&
-    //             snapshot.hasData) {
-    //           if (snapshot.hasError) {
-    //             Alert(
-    //                     context: context,
-    //                     title: "Connection Failed",
-    //                     desc: snapshot.data)
-    //                 .show();
-    //           }
-    //           List<Patient> patient = snapshot.data;
-
-    //         } else {
-    //           return Center(child: CircularProgressIndicator());
-    //         }
-    //       }),
-    // );
   }
 }
 
 _isSeen(patient, position) {
+  
   bool seen = false;
-  if (patient[position].read == 1) {
+  if (patient[position].read == "1") {
     seen = true;
   }
   return seen;
