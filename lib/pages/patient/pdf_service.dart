@@ -1,7 +1,7 @@
+import 'package:encrypted_shared_preferences/encrypted_shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_plugin_pdf_viewer/flutter_plugin_pdf_viewer.dart';
 import 'package:patient_care/pages/patient/patient_list.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class PDFService extends StatefulWidget {
   final String reportPath;
@@ -28,10 +28,11 @@ class _PDFServiceState extends State<PDFService> {
     setState(() {
       _loading = true;
     });
-    SharedPreferences pref = await SharedPreferences.getInstance();
+    EncryptedSharedPreferences pref = await EncryptedSharedPreferences();
+    String cookie = await pref.getString('cookie');
     Map<String,String> requestHeaders = {
        'Accept': 'application/json',
-       'Cookie': pref.getString('cookie')
+       'Cookie': cookie
      };
     final doc = await PDFDocument.fromURL(url,headers: requestHeaders);
 

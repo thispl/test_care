@@ -1,7 +1,6 @@
+import 'package:encrypted_shared_preferences/encrypted_shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:patient_care/components/check_network.dart';
-import 'package:patient_care/pages/login_page.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:splashscreen/splashscreen.dart';
 
 class IntroPage extends StatefulWidget {
@@ -10,7 +9,7 @@ class IntroPage extends StatefulWidget {
 }
 
 class _IntroPageState extends State<IntroPage> {
-  SharedPreferences prefs;
+  EncryptedSharedPreferences pref;
 
   @override
   void initState() {
@@ -18,12 +17,13 @@ class _IntroPageState extends State<IntroPage> {
     // checkLoginStatus();
   }
 
-  checkLoginStatus() async {
-    prefs = await SharedPreferences.getInstance();
-    if(prefs.getString("cookie") == null) {
-      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => LoginPage()), (Route<dynamic> route) => false);
-    }
-  }
+  // checkLoginStatus() async {
+  //   pref = EncryptedSharedPreferences();
+  //   String cookie = await pref.getString("cookie");
+  //   if(cookie == null) {
+  //     Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => LoginPage()), (Route<dynamic> route) => false);
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {

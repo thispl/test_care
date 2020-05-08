@@ -2,14 +2,6 @@ import 'package:encrypted_shared_preferences/encrypted_shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:patient_care/components/grid_menu.dart';
 import 'package:patient_care/pages/settings.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import 'login_page.dart';
-
-// class ModulesMenu extends StatefulWidget {
-//   @override
-//   _ModulesMenuState createState() => _ModulesMenuState();
-// }
 
 class ModulesMenu extends StatefulWidget {
   @override
@@ -35,7 +27,6 @@ class _ModulesMenuState extends State<ModulesMenu> {
     }
   }
 
-  Future<String> user = getUser();
 
   @override
   Widget build(BuildContext context) {
@@ -119,8 +110,3 @@ class _ModulesMenuState extends State<ModulesMenu> {
   }
 }
 
-Future<String> getUser() async {
-  SharedPreferences pref = await SharedPreferences.getInstance();
-  String cookie = pref.getString('cookie');
-  return 'Admin';
-}
