@@ -1,13 +1,14 @@
 import 'dart:ui';
 
+import 'package:encrypted_shared_preferences/encrypted_shared_preferences.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:patient_care/models/license_info.dart';
 import 'package:patient_care/services/settings-api.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:flutter_html/flutter_html.dart';
-
+import 'login_page.dart';
 import 'modules_menu.dart';
+import 'package:patient_care/utilities/utils.dart';
 
 class Settings extends StatefulWidget {
   @override
@@ -15,8 +16,41 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
+  EncryptedSharedPreferences pref;
+  String username;
+  @override
+  void initState() {
+    super.initState();
+    checkLoginStatus();
+    getUserInfo();
+  }
+
+  checkLoginStatus() async {
+    pref = EncryptedSharedPreferences();
+    String cookies = await pref.getString('cookie'); 
+    if (cookies == null) {
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (BuildContext context) => LoginPage()),
+        ModalRoute.withName('/'),
+      );
+    }
+  }
+
+  getUserInfo() async {
+    pref = EncryptedSharedPreferences();
+    String user = await pref.getString('username'); 
+    if (user != null) {
+      setState(() {
+        username = user;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    // getCookieValue('full_name');
+    
+
     return Stack(
       children: <Widget>[
         Scaffold(
@@ -33,7 +67,26 @@ class _SettingsState extends State<Settings> {
                       builder: (BuildContext context) => ModulesMenu()));
                 },
               ),
-              actions: <Widget>[Icon(Icons.exit_to_app)],
+              actions: <Widget>[
+                FlatButton(
+                  child: Text(
+                    'Log Out',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                  onPressed: () {
+                    pref.clear().then((value) {
+                      print(value);
+                    });
+                    Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(
+                          builder: (BuildContext context) => LoginPage()),
+                      ModalRoute.withName('/'),
+                    );
+                  },
+                )
+              ],
             ),
             body: Stack(
               children: <Widget>[
@@ -47,13 +100,13 @@ class _SettingsState extends State<Settings> {
                 ]))),
                 Positioned(
                   top: 50.0,
-                  left: 100.0,
+                  left: 50.0,
                   child: Text(
-                    'John Doe',
+                    '$username',
                     style: TextStyle(
-                          color: Colors.black,
-                          // fontWeight: FontWeight.bold,
-                          fontSize: 48.0),
+                        color: Colors.black,
+                        // fontWeight: FontWeight.bold,
+                        fontSize: 48.0),
                   ),
                 ),
               ],

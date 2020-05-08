@@ -85,60 +85,64 @@ class _ResearchListState extends State<ResearchList> {
   Padding _buildList(List<Research> research, int position) {
     return Padding(
       padding: const EdgeInsets.all(6.0),
-      child: Material(
-        color: Colors.teal.shade50,
-        borderRadius: BorderRadius.circular(10.0),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text('Project', style: TextStyle(color: Colors.grey)),
-                    SizedBox(
-                      width: 120.0,
-                      child: Text(
-                        '${research[position].projectName ?? ''}',
-                        style: GoogleFonts.baskervville(
-                          textStyle: TextStyle(
-                              fontSize: 18.0,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold),
+      child: InkWell(
+              child: Material(
+          color: Colors.teal.shade50,
+          borderRadius: BorderRadius.circular(10.0),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text('Project', style: TextStyle(color: Colors.grey)),
+                      SizedBox(
+                        width: 120.0,
+                        child: Text(
+                          '${research[position].projectName ?? ''}',
+                          style: GoogleFonts.baskervville(
+                            textStyle: TextStyle(
+                                fontSize: 18.0,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          softWrap: true,
                         ),
-                        softWrap: true,
-                      ),
-                    )
-                  ],
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text('Status', style: TextStyle(color: Colors.grey)),
-                    Text('In Progress',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 16.0))
-                  ],
-                ),
-                Material(
-                    color: Colors.teal,
-                    borderRadius: BorderRadius.circular(1.0),
-                    child: Center(
-                        child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text('12%',
+                      )
+                    ],
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text('Status', style: TextStyle(color: Colors.grey)),
+                      Text(
+                        '${research[position].status ?? ''}',
                           style: TextStyle(
-                              color: Colors.white,
+                              color: Colors.black,
                               fontWeight: FontWeight.w700,
-                              fontSize: 32.0)),
-                    )))
-              ]),
+                              fontSize: 16.0))
+                    ],
+                  ),
+                  Material(
+                      color: Colors.teal,
+                      borderRadius: BorderRadius.circular(1.0),
+                      child: Center(
+                          child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          '${research[position].percentOfCompletion ?? ''}'+'%',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w700,
+                                fontSize: 32.0)),
+                      )))
+                ]),
+          ),
         ),
       ),
     );

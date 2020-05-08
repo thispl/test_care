@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:patient_care/components/constants.dart';
 import 'package:patient_care/pages/patient/patient_detail.dart';
+import 'package:patient_care/pages/patient/pdf_service.dart';
 import 'package:patient_care/services/patient-api.dart';
 import 'package:patient_care/models/patient.dart';
 import '../modules_menu.dart';
@@ -15,7 +17,8 @@ class PatientList extends StatefulWidget {
 }
 
 class _PatientListState extends State<PatientList> {
-  int count = 0;
+  String pendingCount = "5";
+  String completedCount = "10";
   String filter;
 
   @override
@@ -38,9 +41,10 @@ class _PatientListState extends State<PatientList> {
                     Badge(
                       badgeColor: Colors.white,
                       shape: BadgeShape.circle,
-                      borderRadius: 25,
+                      borderRadius: 50,
                       toAnimate: false,
-                      badgeContent: Text(count.toString(),
+                      badgeContent: Text(
+                        completedCount,
                           style: TextStyle(color: Colors.black)),
                     ),
                   ],
@@ -58,7 +62,7 @@ class _PatientListState extends State<PatientList> {
                       shape: BadgeShape.circle,
                       borderRadius: 25,
                       toAnimate: false,
-                      badgeContent: Text(count.toString(),
+                      badgeContent: Text(pendingCount,
                           style: TextStyle(color: Colors.black)),
                     ),
                   ],
@@ -150,27 +154,54 @@ class _PatientListState extends State<PatientList> {
                                 ),
                               ),
                             ),
-                            trailing: Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              mainAxisAlignment: MainAxisAlignment.center,
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
-                                Text(
-                                  _isSeen(patient, position) ? 'READ' : 'NEW',
-                                  style: GoogleFonts.lora(
-                                    textStyle: TextStyle(
-                                        color: Colors.grey,
-                                        fontWeight: FontWeight.bold),
-                                  ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Text(
+                                      _isSeen(patient, position)
+                                          ? 'READ'
+                                          : 'NEW',
+                                      style: GoogleFonts.lora(
+                                        textStyle: TextStyle(
+                                            color: Colors.grey,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                    Text(
+                                      getFormatted(
+                                          '${patient[position].reportDate}'),
+                                      style: GoogleFonts.lora(
+                                        textStyle: TextStyle(
+                                            color: Colors.grey,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                Text(
-                                  getFormatted(
-                                      '${patient[position].reportDate}'),
-                                  style: GoogleFonts.lora(
-                                    textStyle: TextStyle(
-                                        color: Colors.grey,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: <Widget>[
+                                    PopupMenuButton<String>(
+                                        onSelected: (value) {
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (BuildContext context) =>
+                                                  PDFService(patient[position]
+                                                      .report)));
+                                    }, itemBuilder: (BuildContext context) {
+                                      return Constants.choices
+                                          .map((String choice) {
+                                        return PopupMenuItem<String>(
+                                            value: choice,
+                                            child: Text('Show Report'));
+                                      }).toList();
+                                    }),
+                                  ],
+                                )
                               ],
                             ),
                             onTap: () => _onTapItem(context, patient[position]),
@@ -273,7 +304,6 @@ _isSeen(patient, position) {
   }
   return seen;
 }
-
 
 void _onTapItem(BuildContext context, Patient patient) {
   Navigator.of(context).push(MaterialPageRoute(

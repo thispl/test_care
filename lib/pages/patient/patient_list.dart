@@ -8,7 +8,7 @@ import 'package:patient_care/models/patient.dart';
 import '../modules_menu.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
-// import 'package:badges/badges.dart';
+import 'package:badges/badges.dart';
 import 'package:patient_care/components/utils.dart';
 
 class PatientList extends StatefulWidget {
@@ -16,166 +16,122 @@ class PatientList extends StatefulWidget {
   _PatientListState createState() => _PatientListState();
 }
 
-class _PatientListState extends State<PatientList>
-    with SingleTickerProviderStateMixin {
-  int count;
+class _PatientListState extends State<PatientList> {
+  String pendingCount;
+  String completedCount;
   String filter;
 
-  TabController _controller;
+  List<Patient> completedPatients = List();
+  List<Patient> filteredCompletedPatients = List();
+  List<Patient> pendingPatients = List();
+  List<Patient> filteredPendingPatients = List();
 
+  bool error = false;
+  bool isLoading = true;
   @override
   void initState() {
     super.initState();
-    _controller = TabController(length: 2, vsync: this);
+    fetchCompletedPatient().then((completedPatientFromServer) {
+      setState(() {
+        isLoading = false;
+        completedPatients = completedPatientFromServer;
+        filteredCompletedPatients = completedPatients;
+        completedCount = (filteredCompletedPatients.length).toString();
+      });
+    }).catchError((e) {
+      setState(() {
+        error = true;
+      });
+    });
+
+    fetchPendingPatient().then((pendingPatientFromServer) {
+      setState(() {
+        isLoading = false;
+        pendingPatients = pendingPatientFromServer;
+        filteredPendingPatients = pendingPatients;
+        pendingCount = (filteredPendingPatients.length).toString();
+      });
+    }).catchError((e) {
+      setState(() {
+        error = true;
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-          automaticallyImplyLeading: false,
-          elevation: 2.0,
-          backgroundColor: Colors.teal,
-          leading: IconButton(
-            icon: Icon(Icons.home),
-            onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) => ModulesMenu()));
-            },
-          ),
-          title: Text(
-            'Patients',
-            style: GoogleFonts.baskervville(
-              textStyle:
-                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-            ),
-          ),
-          actions: <Widget>[
-            // action button
-          ]),
-      body: SafeArea(
-          child: ListView(
-        physics: const NeverScrollableScrollPhysics(),
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Column(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Material(
-                      elevation: 5.0,
-                      shape: CircleBorder(),
-                      color: Colors.teal.shade50,
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Center(
-                          child: Text('12',
-                              style: TextStyle(
-                                  color: Colors.black, fontSize: 20.0)),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 8.0),
-                    child: Text('New',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 12.0,
-                            fontWeight: FontWeight.bold)),
-                  ),
-                ],
-              ),
-              SizedBox(
-                width: 10.0,
-              ),
-              Column(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Material(
-                      elevation: 5.0,
-                      shape: CircleBorder(),
-                      child: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Center(
-                          child: Text('12',
-                              style: TextStyle(
-                                  color: Colors.black, fontSize: 20.0)),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 8.0),
-                    child: Text('Read',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 12.0,
-                            fontWeight: FontWeight.normal)),
-                  ),
-                ],
-              ),
-              SizedBox(
-                width: 10.0,
-              ),
-              Column(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Material(
-                      elevation: 5.0,
-                      shape: CircleBorder(),
-                      child: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Center(
-                          child: Text('12',
-                              style: TextStyle(
-                                  color: Colors.black, fontSize: 20.0)),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 8.0),
-                    child: Text('In Progress',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 12.0,
-                            fontWeight: FontWeight.normal)),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          Container(
-            decoration: BoxDecoration(color: Colors.teal),
-            child: TabBar(
-              controller: _controller,
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+            bottom: TabBar(
               indicatorColor: Colors.white,
               tabs: [
-                Tab(
-                  child: Text('Completed',
-                      style: TextStyle(color: Colors.white, fontSize: 16.0)),
+                Row(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('Completed',
+                          style:
+                              TextStyle(color: Colors.white, fontSize: 16.0)),
+                    ),
+                    Badge(
+                      badgeColor: Colors.white,
+                      shape: BadgeShape.circle,
+                      borderRadius: 50,
+                      toAnimate: false,
+                      badgeContent: Text(completedCount ?? '',
+                          style: TextStyle(color: Colors.black)),
+                    ),
+                  ],
                 ),
-                Tab(
-                  child: Text('In Progress',
-                      style: TextStyle(color: Colors.white, fontSize: 16.0)),
-                ),
+                Row(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('In Progress',
+                          style:
+                              TextStyle(color: Colors.white, fontSize: 16.0)),
+                    ),
+                    Badge(
+                      badgeColor: Colors.white,
+                      shape: BadgeShape.circle,
+                      borderRadius: 25,
+                      toAnimate: false,
+                      badgeContent: Text(pendingCount ?? '',
+                          style: TextStyle(color: Colors.black)),
+                    ),
+                  ],
+                )
               ],
             ),
-          ),
-          Container(
-            height: 1000.0,
-            child: TabBarView(controller: _controller, children: [
-              buildCompletedList(filter = '["status", "=", "Reported"]'),
-              buildPendingList(filter = '["status", "=", "In Progress"]'),
+            automaticallyImplyLeading: false,
+            elevation: 2.0,
+            backgroundColor: Colors.teal,
+            leading: IconButton(
+              icon: Icon(Icons.home),
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (BuildContext context) => ModulesMenu()));
+              },
+            ),
+            title: Text(
+              'Patients',
+              style: GoogleFonts.baskervville(
+                textStyle:
+                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+              ),
+            ),
+            actions: <Widget>[
+              // action button
             ]),
-          )
-        ],
-      )),
+        body: SafeArea(
+          child: TabBarView(children: [
+            buildCompletedList(filter = '["status", "=", "Reported"]'),
+            buildPendingList(filter = '["status", "=", "In Progress"]'),
+          ]),
+        ),
+      ),
     );
   }
 
@@ -187,118 +143,133 @@ class _PatientListState extends State<PatientList>
     final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
         GlobalKey<RefreshIndicatorState>();
     return Container(
-      child: FutureBuilder(
-          future: fetchPatient(filter),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done &&
-                snapshot.hasData) {
-              if (snapshot.hasError) {
-                Alert(
-                        context: context,
-                        title: "Connection Failed",
-                        desc: snapshot.data)
-                    .show();
-              }
-              List<Patient> patient = snapshot.data;
-              return Container(
-                child: LiquidPullToRefresh(
-                  color: Colors.teal,
-                  key: _refreshIndicatorKey,
-                  onRefresh: _refresh,
-                  child: ListView.builder(
-                      itemCount: patient.length,
-                      padding: const EdgeInsets.all(2.0),
-                      itemBuilder: (context, position) {
-                        return Card(
-                          color: _isSeen(patient, position)
-                              ? Colors.white
-                              : Colors.teal[50],
-                          child: ListTile(
-                            title: Text(
-                              '${patient[position].firstName ?? ''}' +
-                                  ' ' +
-                                  '${patient[position].lastName ?? ''}',
-                              style: GoogleFonts.baskervville(
-                                textStyle: TextStyle(
-                                    fontSize: 18.0,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            subtitle: Text(
-                              '${patient[position].patientId}',
-                              style: GoogleFonts.playfairDisplay(
-                                textStyle: TextStyle(
-                                  color: Colors.black,
-                                  // fontWeight: FontWeight.bold
-                                ),
-                              ),
-                            ),
-                            trailing: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Text(
-                                      _isSeen(patient, position)
-                                          ? 'READ'
-                                          : 'NEW',
-                                      style: GoogleFonts.lora(
-                                        textStyle: TextStyle(
-                                            color: Colors.grey,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ),
-                                    Text(
-                                      getFormatted(
-                                          '${patient[position].reportDate}'),
-                                      style: GoogleFonts.lora(
-                                        textStyle: TextStyle(
-                                            color: Colors.grey,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: <Widget>[
-                                    PopupMenuButton<String>(
-                                        onSelected: (value) {
-                                      Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (BuildContext context) =>
-                                                  PDFService(patient[position]
-                                                      .report)));
-                                    }, itemBuilder: (BuildContext context) {
-                                      return Constants.choices
-                                          .map((String choice) {
-                                        return PopupMenuItem<String>(
-                                            value: choice,
-                                            child: Text('Show Report'));
-                                      }).toList();
-                                    }),
-                                  ],
-                                )
-                              ],
-                            ),
-                            onTap: () => _onTapItem(context, patient[position]),
-                          ),
-                        );
-                      }),
+      child: isLoading
+          ? Center(child: CircularProgressIndicator())
+          : Column(
+              children: [
+                TextField(
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.all(10.0),
+                    hintText: 'Enter Patient Name or ID',
+                  ),
+                  onChanged: (string) {
+                    setState(() {
+                      filteredCompletedPatients = completedPatients
+                          .where((a) =>
+                              a.firstName
+                                  .toLowerCase()
+                                  .contains(string.toLowerCase()) ||
+                              a.patientId
+                                  .toLowerCase()
+                                  .contains(string.toLowerCase()))
+                          .toList();
+                    });
+                  },
                 ),
-              );
-            } else {
-              return Center(child: CircularProgressIndicator());
-            }
-          }),
+                Expanded(
+                  child: Container(
+                    child: LiquidPullToRefresh(
+                      color: Colors.teal,
+                      key: _refreshIndicatorKey,
+                      onRefresh: _refresh,
+                      child: ListView.builder(
+                          itemCount: filteredCompletedPatients.length,
+                          padding: const EdgeInsets.all(2.0),
+                          itemBuilder: (context, position) {
+                            return Card(
+                              color:
+                                  _isSeen(filteredCompletedPatients, position)
+                                      ? Colors.white
+                                      : Colors.teal[50],
+                              child: ListTile(
+                                title: Text(
+                                  '${filteredCompletedPatients[position].firstName ?? ''}' +
+                                      ' ' +
+                                      '${filteredCompletedPatients[position].lastName ?? ''}',
+                                  style: GoogleFonts.baskervville(
+                                    textStyle: TextStyle(
+                                        fontSize: 18.0,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                subtitle: Text(
+                                  '${filteredCompletedPatients[position].patientId}',
+                                  style: GoogleFonts.playfairDisplay(
+                                    textStyle: TextStyle(
+                                      color: Colors.black,
+                                      // fontWeight: FontWeight.bold
+                                    ),
+                                  ),
+                                ),
+                                trailing: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        Text(
+                                          _isSeen(filteredCompletedPatients,
+                                                  position)
+                                              ? 'READ'
+                                              : 'NEW',
+                                          style: GoogleFonts.lora(
+                                            textStyle: TextStyle(
+                                                color: Colors.grey,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                        Text(
+                                          getFormatted(
+                                              '${filteredCompletedPatients[position].reportDate}'),
+                                          style: GoogleFonts.lora(
+                                            textStyle: TextStyle(
+                                                color: Colors.grey,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: <Widget>[
+                                        PopupMenuButton<String>(
+                                            onSelected: (value) {
+                                          Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                  builder: (BuildContext
+                                                          context) =>
+                                                      PDFService(
+                                                          filteredCompletedPatients[
+                                                                  position]
+                                                              .report)));
+                                        }, itemBuilder: (BuildContext context) {
+                                          return Constants.choices
+                                              .map((String choice) {
+                                            return PopupMenuItem<String>(
+                                                value: choice,
+                                                child: Text('Show Report'));
+                                          }).toList();
+                                        }),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                                onTap: () => _onTapItem(context,
+                                    filteredCompletedPatients[position]),
+                              ),
+                            );
+                          }),
+                    ),
+                  ),
+                ),
+              ],
+            ),
     );
-  }
-
-  void choiceAction(String value) {
-    print(value);
   }
 
   Container buildPendingList(String filter) {
@@ -309,75 +280,106 @@ class _PatientListState extends State<PatientList>
     final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
         GlobalKey<RefreshIndicatorState>();
     return Container(
-      child: FutureBuilder(
-          future: fetchPatient(filter),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done &&
-                snapshot.hasData) {
-              if (snapshot.hasError) {
-                Alert(
-                        context: context,
-                        title: "Connection Failed",
-                        desc: snapshot.data)
-                    .show();
-              }
-              List<Patient> patient = snapshot.data;
-              return Container(
-                child: LiquidPullToRefresh(
-                  color: Colors.teal,
-                  key: _refreshIndicatorKey,
-                  onRefresh: _refresh,
-                  child: ListView.builder(
-                      itemCount: patient.length,
-                      padding: const EdgeInsets.all(2.0),
-                      itemBuilder: (context, position) {
-                        return Card(
-                          color: Colors.white,
-                          child: ListTile(
-                            title: Text(
-                              '${patient[position].firstName ?? ''}' +
-                                  ' ' +
-                                  '${patient[position].lastName ?? ''}',
-                              style: GoogleFonts.baskervville(
-                                textStyle: TextStyle(
-                                    fontSize: 18.0,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            subtitle: Text(
-                              '${patient[position].patientId}',
-                              style: GoogleFonts.playfairDisplay(
-                                textStyle: TextStyle(
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                            trailing: Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Text(
-                                  'In Progress',
-                                  style: GoogleFonts.lora(
+      child: isLoading
+          ? Center(child: CircularProgressIndicator())
+          : Column(
+              children: [
+                TextField(
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.all(10.0),
+                    hintText: 'Enter Patient Name or ID',
+                  ),
+                  onChanged: (string) {
+                    setState(() {
+                      filteredPendingPatients = pendingPatients
+                          .where((a) =>
+                              a.firstName
+                                  .toLowerCase()
+                                  .contains(string.toLowerCase()) ||
+                              a.patientId
+                                  .toLowerCase()
+                                  .contains(string.toLowerCase()))
+                          .toList();
+                    });
+                  },
+                ),
+                Expanded(
+                  child: Container(
+                    child: LiquidPullToRefresh(
+                      color: Colors.teal,
+                      key: _refreshIndicatorKey,
+                      onRefresh: _refresh,
+                      child: ListView.builder(
+                          itemCount: filteredPendingPatients.length,
+                          padding: const EdgeInsets.all(2.0),
+                          itemBuilder: (context, position) {
+                            return Card(
+                              color: Colors.white,
+                              child: ListTile(
+                                title: Text(
+                                  '${filteredPendingPatients[position].firstName ?? ''}' +
+                                      ' ' +
+                                      '${filteredPendingPatients[position].lastName ?? ''}',
+                                  style: GoogleFonts.baskervville(
                                     textStyle: TextStyle(
-                                        color: Colors.grey,
+                                        fontSize: 18.0,
+                                        color: Colors.black,
                                         fontWeight: FontWeight.bold),
                                   ),
                                 ),
-                              ],
-                            ),
-                            onTap: () => _onTapItem(context, patient[position]),
-                          ),
-                        );
-                      }),
+                                subtitle: Text(
+                                  '${filteredPendingPatients[position].patientId}',
+                                  style: GoogleFonts.playfairDisplay(
+                                    textStyle: TextStyle(
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ),
+                                trailing: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Text(
+                                      'In Progress',
+                                      style: GoogleFonts.lora(
+                                        textStyle: TextStyle(
+                                            color: Colors.grey,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                onTap: () => _onTapItem(
+                                    context, filteredPendingPatients[position]),
+                              ),
+                            );
+                          }),
+                    ),
+                  ),
                 ),
-              );
-            } else {
-              return Center(child: CircularProgressIndicator());
-            }
-          }),
+              ],
+            ),
     );
+    // return Container(
+    //   child: FutureBuilder(
+    //       future: fetchCompletedPatient(filter),
+    //       builder: (context, snapshot) {
+    //         if (snapshot.connectionState == ConnectionState.done &&
+    //             snapshot.hasData) {
+    //           if (snapshot.hasError) {
+    //             Alert(
+    //                     context: context,
+    //                     title: "Connection Failed",
+    //                     desc: snapshot.data)
+    //                 .show();
+    //           }
+    //           List<Patient> patient = snapshot.data;
+
+    //         } else {
+    //           return Center(child: CircularProgressIndicator());
+    //         }
+    //       }),
+    // );
   }
 }
 
@@ -393,13 +395,3 @@ void _onTapItem(BuildContext context, Patient patient) {
   Navigator.of(context).push(MaterialPageRoute(
       builder: (BuildContext context) => PatientDetail(patient: patient)));
 }
-
-// Badge(
-//   badgeColor: Colors.white,
-//   shape: BadgeShape.circle,
-//   borderRadius: 25,
-//   toAnimate: false,
-//   badgeContent: Text(count.toString(),
-//       style: TextStyle(color: Colors.black)),
-// ),
-// ],

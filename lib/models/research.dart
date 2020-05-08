@@ -1,26 +1,31 @@
 
+import 'dart:ffi';
+
 class Research {
   String projectId;
-    String projectName;
-    String startDate;
-    String dueDate;
-    String status;
+  String projectName;
+  String percentOfCompletion;
+  String startDate;
+  String endDate;
+  String status;
 
 
     Research({
       this.projectId,
         this.projectName,
+        this.percentOfCompletion,
         this.startDate,
-        this.dueDate,
+        this.endDate,
         this.status,
     });
 
     factory Research.fromJson(Map<String, dynamic> json) {
       return Research(
-        projectId: json["id"],
+        projectId: json["project_id"],
         projectName: json["title"],
-        startDate: json["startDate"],
-        dueDate:json["dueDate"],
+        percentOfCompletion: (json['percentage_of_completion'].round()).toString(),
+        startDate: json["start_date"],
+        endDate:json["end_date"],
         status: json["status"],
     );
     } 

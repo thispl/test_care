@@ -1,37 +1,31 @@
 import 'dart:io';
 
+import 'package:encrypted_shared_preferences/encrypted_shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:patient_care/models/research.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
-Future<List<Research>> fetchResearch() async {
-  String url = 'https://www.wrike.com/api/v4/folders/';
-  var token = await getToken();
-  if (token != null) {
-    final response =
-        await http.get(url, headers: {'Authorization': 'Bearer $token'});
-    var data = json.decode(response.body)['data'] as List;
-    List<Research> list =
-        data.map<Research>((json) => Research.fromJson(json)).toList();
-    return list;
-  } 
-}
-
-Future<String> getToken() async {
-  String url = 'https://mcw-gspmc.tk/api/resource/Settings/Settings';
-
-  SharedPreferences pref = await SharedPreferences.getInstance();
+Future<List<Research>> fetchResearch([String filter]) async {
+  EncryptedSharedPreferences pref = EncryptedSharedPreferences();
+  String cookie = await pref.getString('cookie');
+  String userId = await pref.getString('user_id');
   Map<String, String> requestHeaders = {
-    //  'Content-Type': 'application/x-www-form-urlencoded',
     'Accept': 'application/json',
-    'Cookie': pref.getString('cookie')
+    'Cookie': cookie
   };
-  final response = await http.get(url, headers: requestHeaders);
-  if (response.statusCode == 200) {
-    var jsonData = json.decode(response.body)['data'];
-    return jsonData['wrike_token'];
-  } else {
-    return 'Error:' + response.statusCode.toString();
+
+  String url =
+      'https://mcw-gspmc.tk/api/resource/Research Project?fields=["*"]&filters=[["user_id","=","$userId"]]';
+
+  if (filter != null) {
+    url = url + "&filters=[['user_id','=','$userId']]";
   }
+  
+  List<Research> list;
+
+  final response = await http.get(url, headers: requestHeaders);
+  // print(response.body);
+  var data = json.decode(response.body)['data'] as List;
+  list = data.map<Research>((json) => Research.fromJson(json)).toList();
+  return list;
 }

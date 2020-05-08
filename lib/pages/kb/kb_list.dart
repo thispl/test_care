@@ -17,7 +17,7 @@ class _KBListState extends State<KBList> {
   @override
   void initState() {
     super.initState();
-    KBServices.fetchArticle().then((articlesFromServer) {
+    fetchArticle().then((articlesFromServer) {
       setState(() {
         articles = articlesFromServer;
         filteredArticles = articles;

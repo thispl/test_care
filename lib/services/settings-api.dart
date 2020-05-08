@@ -1,22 +1,22 @@
 import 'package:http/http.dart' as http;
 import 'package:patient_care/models/license_info.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:encrypted_shared_preferences/encrypted_shared_preferences.dart';
 import 'dart:convert';
+import 'dart:core';
 
 Future<List<LicenseInfo>> fetchLicenseInfo() async {
-  String url = 'https://mcw-gspmc.tk/api/resource/License Information?fields=["title","description"]';
-  SharedPreferences pref = await SharedPreferences.getInstance();
-  List<LicenseInfo> list;
- 
-  Map<String,String> requestHeaders = {
-      //  'Content-Type': 'application/x-www-form-urlencoded',
-       'Accept': 'application/json',
-       'Cookie': pref.getString('cookie')
-     };
-  
-  final response = await http.get(url,headers: requestHeaders); 
+  String url =
+      'https://mcw-gspmc.tk/api/resource/License Information?fields=["title","description"]';
+  EncryptedSharedPreferences pref = EncryptedSharedPreferences();
+  String cookie = await pref.getString('cookie');
+  Map<String, String> requestHeaders = {
+    'Accept': 'application/json',
+    'Cookie': cookie
+  };
+  final response = await http.get(url, headers: requestHeaders);
   // print(response.body);
-  var data =json.decode(response.body)['data'] as List;
+  List<LicenseInfo> list;
+  var data = json.decode(response.body)['data'] as List;
   list = data.map<LicenseInfo>((json) => LicenseInfo.fromJson(json)).toList();
-  return list; 
+  return list;
 }

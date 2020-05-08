@@ -1,7 +1,15 @@
+import 'package:encrypted_shared_preferences/encrypted_shared_preferences.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:patient_care/components/grid_menu.dart';
 import 'package:patient_care/pages/settings.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'login_page.dart';
+
+// class ModulesMenu extends StatefulWidget {
+//   @override
+//   _ModulesMenuState createState() => _ModulesMenuState();
+// }
 
 class ModulesMenu extends StatefulWidget {
   @override
@@ -9,6 +17,26 @@ class ModulesMenu extends StatefulWidget {
 }
 
 class _ModulesMenuState extends State<ModulesMenu> {
+  EncryptedSharedPreferences pref;
+  String username;
+   @override
+  void initState() {
+    super.initState();
+    getUserInfo();
+  }
+
+  getUserInfo() async {
+    pref = EncryptedSharedPreferences();
+    String user = await pref.getString('username'); 
+    if (user != null) {
+      setState(() {
+        username = user;
+      });
+    }
+  }
+
+  Future<String> user = getUser();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,11 +70,11 @@ class _ModulesMenuState extends State<ModulesMenu> {
                     width: 10.0,
                   ),
                   Text(
-                    "John Doe's Modules",
+                    "$username's Modules",
                     style: TextStyle(
-                          color: Colors.white,
-                          // fontWeight: FontWeight.bold,
-                          fontSize: 32.0),
+                        color: Colors.white,
+                        // fontWeight: FontWeight.bold,
+                        fontSize: 32.0),
                   ),
                 ],
               ),
@@ -87,4 +115,10 @@ class _ModulesMenuState extends State<ModulesMenu> {
       ),
     );
   }
+}
+
+Future<String> getUser() async{
+  SharedPreferences pref = await SharedPreferences.getInstance();
+  String cookie = pref.getString('cookie');
+  return 'Admin';
 }
