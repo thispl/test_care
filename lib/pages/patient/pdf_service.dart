@@ -28,7 +28,7 @@ class _PDFServiceState extends State<PDFService> {
     setState(() {
       _loading = true;
     });
-    EncryptedSharedPreferences pref = await EncryptedSharedPreferences();
+    EncryptedSharedPreferences pref = EncryptedSharedPreferences();
     String cookie = await pref.getString('cookie');
     Map<String,String> requestHeaders = {
        'Accept': 'application/json',

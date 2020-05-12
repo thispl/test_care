@@ -34,8 +34,8 @@ class _PatientListState extends State<PatientList> {
     loadList();
   }
 
-  loadList(){
-      fetchCompletedPatient().then((completedPatientFromServer) {
+  loadList() {
+    fetchCompletedPatient().then((completedPatientFromServer) {
       setState(() {
         isLoading = false;
         completedPatients = completedPatientFromServer;
@@ -239,30 +239,36 @@ class _PatientListState extends State<PatientList> {
                                         ),
                                       ],
                                     ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      children: <Widget>[
-                                        PopupMenuButton<String>(
-                                            onSelected: (value) {
-                                          Navigator.of(context).push(
-                                              MaterialPageRoute(
-                                                  builder: (BuildContext
-                                                          context) =>
-                                                      PDFService(
-                                                          filteredCompletedPatients[
-                                                                  position]
-                                                              .report)));
-                                        }, itemBuilder: (BuildContext context) {
-                                          return Constants.choices
-                                              .map((String choice) {
-                                            return PopupMenuItem<String>(
-                                                value: choice,
-                                                child: Text('Show Report'));
-                                          }).toList();
-                                        }),
-                                      ],
-                                    )
+                                    filteredCompletedPatients[position]
+                                                .report !=
+                                            null
+                                        ? Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                            children: <Widget>[
+                                              PopupMenuButton<String>(
+                                                  onSelected: (value) {
+                                                Navigator.of(context).push(
+                                                    MaterialPageRoute(
+                                                        builder: (BuildContext
+                                                                context) =>
+                                                            PDFService(
+                                                                filteredCompletedPatients[
+                                                                        position]
+                                                                    .report)));
+                                              }, itemBuilder:
+                                                      (BuildContext context) {
+                                                return Constants.choices
+                                                    .map((String choice) {
+                                                  return PopupMenuItem<String>(
+                                                      value: choice,
+                                                      child:
+                                                          Text('Show Report'));
+                                                }).toList();
+                                              }),
+                                            ],
+                                          )
+                                        : Container()
                                   ],
                                 ),
                                 onTap: () => _onTapItem(context,
@@ -372,7 +378,6 @@ class _PatientListState extends State<PatientList> {
 }
 
 _isSeen(patient, position) {
-  
   bool seen = false;
   if (patient[position].read == "1") {
     seen = true;
