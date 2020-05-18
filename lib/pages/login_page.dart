@@ -1,6 +1,7 @@
 import 'package:encrypted_shared_preferences/encrypted_shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:patient_care/pages/check_agreement.dart';
 import 'package:patient_care/pages/password_reset.dart';
 import 'package:patient_care/utilities/constants.dart';
 import 'package:http/http.dart' as http;
@@ -96,6 +97,7 @@ class _LoginPageState extends State<LoginPage> {
     var response = await http.post(url, body: data, headers: requestHeaders);
     if (response.statusCode == 200) {
       jsonData = json.decode(response.body);
+      
       setState(() {
         _isLoading = false;
         response.headers.forEach((key, value) {
@@ -110,13 +112,14 @@ class _LoginPageState extends State<LoginPage> {
             });
           }
         });
-        
-
+        Future.delayed(const Duration(seconds: 1), () {
+        // navigateToHome();
         Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(
               builder: (BuildContext context) => ModulesMenu(),
             ),
             (Route<dynamic> route) => false);
+      });
       });
     } else {
       if (response.statusCode == 401) {
@@ -139,6 +142,27 @@ class _LoginPageState extends State<LoginPage> {
       }
       // print(response.statusCode);
     }
+  }
+
+  navigateToHome(){
+    bool _checkAgreed = false;
+    if(_checkAgreed){
+      Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+              builder: (BuildContext context) => ModulesMenu(),
+            ),
+            (Route<dynamic> route) => false);
+    }
+    else
+    {
+      Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+              builder: (BuildContext context) => CheckAgreement(),
+            ),
+            (Route<dynamic> route) => false);
+    }
+
+    
   }
 
   Widget _emailTF() {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:patient_care/pages/modules_menu.dart';
 import 'package:patient_care/pages/patient/patient_list.dart';
+import 'package:patient_care/pages/payments/payment.dart';
 import 'package:patient_care/pages/research/research_list.dart';
 import 'package:patient_care/pages/kb/kb_topics.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
@@ -34,7 +35,7 @@ class GridMenu extends StatelessWidget {
       // ListScreen(),
       ResearchList(),
       KBTopics(),
-      Settings()
+      Payments()
     ];
     final List _icons = [
       Icon(

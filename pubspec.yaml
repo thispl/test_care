@@ -20,6 +20,7 @@ dependencies:
   flutter:
     sdk: flutter
   
+  scoped_model:
   cupertino_icons: ^0.1.2
   cached_network_image: ^2.0.0
   flutter_sparkline: ^0.1.0
@@ -36,11 +37,14 @@ dependencies:
   liquid_pull_to_refresh: ^1.1.1
   badges: ^1.0.0
   intl: ^0.16.1
-  onesignal_flutter: ^2.3.4
   chewie: ^0.9.10
   video_player:
   encrypted_shared_preferences: ^1.0.5
   firebase_messaging:
+  square_in_app_payments:
+  flutter_skeleton:
+  shimmer:
+
 
   flutter_plugin_pdf_viewer:
     git:

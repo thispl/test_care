@@ -14,9 +14,10 @@ Future<List<LicenseInfo>> fetchLicenseInfo() async {
     'Cookie': cookie
   };
   final response = await http.get(url, headers: requestHeaders);
-  // print(response.body);
-  List<LicenseInfo> list;
-  var data = json.decode(response.body)['data'] as List;
-  list = data.map<LicenseInfo>((json) => LicenseInfo.fromJson(json)).toList();
+  List<LicenseInfo> list = [];
+  if (response.statusCode == 200) {
+    var data = json.decode(response.body)['data'] as List;
+    list = data.map<LicenseInfo>((json) => LicenseInfo.fromJson(json)).toList();
+  }
   return list;
 }

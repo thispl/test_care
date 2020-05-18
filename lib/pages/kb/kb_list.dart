@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_skeleton/flutter_skeleton.dart';
 import 'package:patient_care/models/knowledgebase/article.dart';
 import 'package:patient_care/services/kb-api.dart';
 import 'package:patient_care/pages/kb/kb_detail.dart';
@@ -52,7 +53,19 @@ class _KBListState extends State<KBList> {
             ]),
         body: SafeArea(
           child: error
-              ? Center(child: CircularProgressIndicator())
+              ? ListSkeleton(
+                  style: SkeletonStyle(
+                    theme: SkeletonTheme.Light,
+                    isShowAvatar: false,
+                    barCount: 3,
+                    colors: [
+                      Colors.teal.shade100,
+                      Colors.teal.shade300,
+                      Colors.teal.shade500,
+                    ],
+                    isAnimation: true,
+                  ),
+                )
               : Column(
                   children: <Widget>[
                     TextField(
@@ -125,5 +138,17 @@ void _onTapItem(BuildContext context, Article article) {
 }
 
 Widget _showLoading(error) {
-  return Center(child: CircularProgressIndicator());
+  return ListSkeleton(
+    style: SkeletonStyle(
+      theme: SkeletonTheme.Light,
+      isShowAvatar: false,
+      barCount: 3,
+      colors: [
+        Colors.teal.shade100,
+        Colors.teal.shade300,
+        Colors.teal.shade500,
+      ],
+      isAnimation: true,
+    ),
+  );
 }

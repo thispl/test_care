@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_skeleton/flutter_skeleton.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:patient_care/models/research.dart';
@@ -86,7 +87,19 @@ class _ResearchListState extends State<ResearchList> {
                               })),
                     );
             } else {
-              return Center(child: CircularProgressIndicator());
+              return ListSkeleton(
+                style: SkeletonStyle(
+                  theme: SkeletonTheme.Light,
+                  isShowAvatar: false,
+                  barCount: 2,
+                  colors: [
+                    Colors.teal.shade100,
+                    Colors.teal.shade300,
+                    Colors.teal.shade500,
+                  ],
+                  isAnimation: true,
+                ),
+              );
             }
           }),
     );

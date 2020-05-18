@@ -5,8 +5,19 @@ final kHintTextStyle = TextStyle(
   fontFamily: 'OpenSans',
 );
 
+final kHintTextStyleBlack = TextStyle(
+  color: Colors.black,
+  fontFamily: 'OpenSans',
+);
+
 final kLabelStyle = TextStyle(
   color: Colors.white,
+  fontWeight: FontWeight.bold,
+  fontFamily: 'OpenSans',
+);
+
+final kLabelStyleBlack = TextStyle(
+  color: Colors.black,
   fontWeight: FontWeight.bold,
   fontFamily: 'OpenSans',
 );

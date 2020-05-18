@@ -27,7 +27,7 @@ class _SettingsState extends State<Settings> {
 
   checkLoginStatus() async {
     pref = EncryptedSharedPreferences();
-    String cookies = await pref.getString('cookie'); 
+    String cookies = await pref.getString('cookie');
     if (cookies == null) {
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (BuildContext context) => LoginPage()),
@@ -38,7 +38,7 @@ class _SettingsState extends State<Settings> {
 
   getUserInfo() async {
     pref = EncryptedSharedPreferences();
-    String user = await pref.getString('username'); 
+    String user = await pref.getString('username');
     if (user != null) {
       setState(() {
         username = user;
@@ -49,7 +49,6 @@ class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     // getCookieValue('full_name');
-    
 
     return Stack(
       children: <Widget>[
@@ -77,7 +76,6 @@ class _SettingsState extends State<Settings> {
                   ),
                   onPressed: () {
                     pref.clear().then((value) {
-                      print(value);
                     });
                     Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(
@@ -106,7 +104,7 @@ class _SettingsState extends State<Settings> {
                     style: TextStyle(
                         color: Colors.black,
                         // fontWeight: FontWeight.bold,
-                        fontSize: 48.0),
+                        fontSize: 36.0),
                   ),
                 ),
               ],
@@ -136,32 +134,45 @@ class _SettingsState extends State<Settings> {
 }
 
 Container listViewWidget(List<LicenseInfo> licenseInfo) {
-  return Container(
-    padding: EdgeInsets.only(top: 250.0, left: 10.0, right: 10.0, bottom: 50.0),
-    child: Material(
-        elevation: 5.0,
-        color: Colors.white,
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Container(
-            child: ListView.builder(
-                itemCount: licenseInfo.length,
-                padding: const EdgeInsets.all(2.0),
-                itemBuilder: (context, position) {
-                  return ListTile(
-                    title: Text(
-                      '${licenseInfo[position].title ?? ''}',
-                      style: TextStyle(
-                          fontSize: 18.0,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    onTap: () => _onTapItem(context, licenseInfo[position]),
-                  );
-                }),
-          ),
-        )),
-  );
+  return licenseInfo.length <= 0
+      ? Container(
+          // child: Center(
+          //     child: Column(
+          //   mainAxisAlignment: MainAxisAlignment.center,
+          //   children: [
+          //     Icon(Icons.announcement),
+          //     Text('No Data Found'),
+          //   ],
+          // )),
+        )
+      : Container(
+          padding: EdgeInsets.only(
+              top: 250.0, left: 10.0, right: 10.0, bottom: 50.0),
+          child: Material(
+              elevation: 5.0,
+              color: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Container(
+                  child: ListView.builder(
+                      itemCount: licenseInfo.length,
+                      padding: const EdgeInsets.all(2.0),
+                      itemBuilder: (context, position) {
+                        return ListTile(
+                          title: Text(
+                            '${licenseInfo[position].title ?? ''}',
+                            style: TextStyle(
+                                fontSize: 18.0,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          onTap: () =>
+                              _onTapItem(context, licenseInfo[position]),
+                        );
+                      }),
+                ),
+              )),
+        );
 }
 
 void _onTapItem(BuildContext context, LicenseInfo licenseInfo) {

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_skeleton/flutter_skeleton.dart';
 import 'package:patient_care/components/constants.dart';
 import 'package:patient_care/pages/patient/patient_detail.dart';
 import 'package:patient_care/pages/patient/pdf_service.dart';
 import 'package:patient_care/services/patient-api.dart';
 import 'package:patient_care/models/patient.dart';
 import '../modules_menu.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:badges/badges.dart';
 import 'package:patient_care/components/utils.dart';
@@ -119,13 +118,9 @@ class _PatientListState extends State<PatientList> {
                     builder: (BuildContext context) => ModulesMenu()));
               },
             ),
-            title: Text(
-              'Patients',
-              style: GoogleFonts.baskervville(
-                textStyle:
-                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-              ),
-            ),
+            title: Text('Patients',
+                style: TextStyle(
+                    color: Colors.white, fontWeight: FontWeight.bold)),
             actions: <Widget>[
               // action button
             ]),
@@ -150,7 +145,19 @@ class _PatientListState extends State<PatientList> {
         GlobalKey<RefreshIndicatorState>();
     return Container(
       child: isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? ListSkeleton(
+              style: SkeletonStyle(
+                theme: SkeletonTheme.Light,
+                isShowAvatar: false,
+                barCount: 3,
+                colors: [
+                  Colors.teal.shade100,
+                  Colors.teal.shade300,
+                  Colors.teal.shade500,
+                ],
+                isAnimation: true,
+              ),
+            )
           : Column(
               children: [
                 TextField(
@@ -189,23 +196,18 @@ class _PatientListState extends State<PatientList> {
                                       : Colors.teal[50],
                               child: ListTile(
                                 title: Text(
-                                  '${filteredCompletedPatients[position].firstName ?? ''}' +
-                                      ' ' +
-                                      '${filteredCompletedPatients[position].lastName ?? ''}',
-                                  style: GoogleFonts.baskervville(
-                                    textStyle: TextStyle(
+                                    '${filteredCompletedPatients[position].firstName ?? ''}' +
+                                        ' ' +
+                                        '${filteredCompletedPatients[position].lastName ?? ''}',
+                                    style: TextStyle(
                                         fontSize: 18.0,
                                         color: Colors.black,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
+                                        fontWeight: FontWeight.bold)),
                                 subtitle: Text(
                                   '${filteredCompletedPatients[position].patientId}',
-                                  style: GoogleFonts.playfairDisplay(
-                                    textStyle: TextStyle(
-                                      color: Colors.black,
-                                      // fontWeight: FontWeight.bold
-                                    ),
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    // fontWeight: FontWeight.bold
                                   ),
                                 ),
                                 trailing: Row(
@@ -218,25 +220,19 @@ class _PatientListState extends State<PatientList> {
                                           MainAxisAlignment.center,
                                       children: <Widget>[
                                         Text(
-                                          _isSeen(filteredCompletedPatients,
-                                                  position)
-                                              ? 'READ'
-                                              : 'NEW',
-                                          style: GoogleFonts.lora(
-                                            textStyle: TextStyle(
+                                            _isSeen(filteredCompletedPatients,
+                                                    position)
+                                                ? 'READ'
+                                                : 'NEW',
+                                            style: TextStyle(
                                                 color: Colors.grey,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ),
+                                                fontWeight: FontWeight.bold)),
                                         Text(
-                                          getFormatted(
-                                              '${filteredCompletedPatients[position].reportDate}'),
-                                          style: GoogleFonts.lora(
-                                            textStyle: TextStyle(
+                                            getFormatted(
+                                                '${filteredCompletedPatients[position].reportDate}'),
+                                            style: TextStyle(
                                                 color: Colors.grey,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ),
+                                                fontWeight: FontWeight.bold)),
                                       ],
                                     ),
                                     filteredCompletedPatients[position]
@@ -295,7 +291,19 @@ class _PatientListState extends State<PatientList> {
         GlobalKey<RefreshIndicatorState>();
     return Container(
       child: isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? ListSkeleton(
+              style: SkeletonStyle(
+                theme: SkeletonTheme.Light,
+                isShowAvatar: false,
+                barCount: 3,
+                colors: [
+                  Colors.teal.shade100,
+                  Colors.teal.shade300,
+                  Colors.teal.shade500,
+                ],
+                isAnimation: true,
+              ),
+            )
           : Column(
               children: [
                 TextField(
@@ -331,36 +339,27 @@ class _PatientListState extends State<PatientList> {
                               color: Colors.white,
                               child: ListTile(
                                 title: Text(
-                                  '${filteredPendingPatients[position].firstName ?? ''}' +
-                                      ' ' +
-                                      '${filteredPendingPatients[position].lastName ?? ''}',
-                                  style: GoogleFonts.baskervville(
-                                    textStyle: TextStyle(
+                                    '${filteredPendingPatients[position].firstName ?? ''}' +
+                                        ' ' +
+                                        '${filteredPendingPatients[position].lastName ?? ''}',
+                                    style: TextStyle(
                                         fontSize: 18.0,
                                         color: Colors.black,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
+                                        fontWeight: FontWeight.bold)),
                                 subtitle: Text(
                                   '${filteredPendingPatients[position].patientId}',
-                                  style: GoogleFonts.playfairDisplay(
-                                    textStyle: TextStyle(
-                                      color: Colors.black,
-                                    ),
+                                  style: TextStyle(
+                                    color: Colors.black,
                                   ),
                                 ),
                                 trailing: Column(
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
-                                    Text(
-                                      'In Progress',
-                                      style: GoogleFonts.lora(
-                                        textStyle: TextStyle(
+                                    Text('In Progress',
+                                        style: TextStyle(
                                             color: Colors.grey,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ),
+                                            fontWeight: FontWeight.bold)),
                                   ],
                                 ),
                                 onTap: () => _onTapItem(

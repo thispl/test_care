@@ -38,35 +38,36 @@ import 'dart:convert';
 //   }
 // }
 
+Future<List<Article>> fetchArticle() async {
+  try {
+    String url =
+        'https://mcw-gspmc.tk/api/resource/Article?fields=["article_name","topic","description","video","video_url"]';
+    EncryptedSharedPreferences pref = EncryptedSharedPreferences();
+    String cookie = await pref.getString('cookie');
+    Map<String, String> requestHeaders = {
+      'Accept': 'application/json',
+      'Cookie': cookie
+    };
 
-
-  Future<List<Article>> fetchArticle() async {
-    try {
-      String url = 'https://mcw-gspmc.tk/api/resource/Article?fields=["article_name","topic","description","video","video_url"]';
-      EncryptedSharedPreferences pref = EncryptedSharedPreferences();
-      String cookie = await pref.getString('cookie');
-      Map<String, String> requestHeaders = {
-        'Accept': 'application/json',
-        'Cookie': cookie
-      };
-
-      // if (filter != null) {
-      //   url = url + "&filters=[$filter]";
-      // }
-      
-      final response = await http.get(url, headers: requestHeaders);
-      if (response.statusCode == 200) {
-        List<Article> list = parseArticles(response.body);
-        return list;
-      } else {
-        throw Exception("Error" + response.statusCode.toString());
-      }
-    } catch (e) {
-      throw Exception("Error" + e.toString());
+    // if (filter != null) {
+    //   url = url + "&filters=[$filter]";
+    // }
+    List<Article> list = [];
+    final response = await http.get(url, headers: requestHeaders);
+    if (response.statusCode == 200) {
+      list = parseArticles(response.body);
+    } else {
+      throw Exception("Error" + response.statusCode.toString());
     }
+    return list;
+  } 
+  catch (e) {
+    print(e);
+    // throw Exception("Error" + e.toString());
   }
+}
 
-  List<Article> parseArticles(String responseBody) {
-    final parsed = json.decode(responseBody)['data'] as List;
-    return parsed.map<Article>((json) => Article.fromJson(json)).toList();
-  }
+List<Article> parseArticles(String responseBody) {
+  final parsed = json.decode(responseBody)['data'] as List;
+  return parsed.map<Article>((json) => Article.fromJson(json)).toList();
+}

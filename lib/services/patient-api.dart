@@ -19,7 +19,6 @@ Future<List<Patient>> fetchCompletedPatient([String filter]) async {
   List<Patient> list;
 
   final response = await http.get(url, headers: requestHeaders);
-  // print(response.body);
   var data = json.decode(response.body)['data'] as List;
   list = data.map<Patient>((json) => Patient.fromJson(json)).toList();
   return list;

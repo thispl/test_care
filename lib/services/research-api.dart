@@ -15,17 +15,19 @@ Future<List<Research>> fetchResearch([String filter]) async {
   };
 
   String url =
-      'https://mcw-gspmc.tk/api/resource/Research Project?fields=["*"]&filters=[["user_id","=","$userId"]]';
+      'https://mcw-gspmc.tk/api/resource/Research Project?fields=["*"]';
 
   if (filter != null) {
     url = url + "&filters=[['user_id','=','$userId']]";
   }
-  
-  List<Research> list;
+
+  List<Research> list = [];
 
   final response = await http.get(url, headers: requestHeaders);
-  // print(response.body);
-  var data = json.decode(response.body)['data'] as List;
-  list = data.map<Research>((json) => Research.fromJson(json)).toList();
-  return list;
+  if (response.statusCode == 200) {
+    var data = json.decode(response.body)['data'] as List;
+    list = data.map<Research>((json) => Research.fromJson(json)).toList();
+  }
+   return list;
+  
 }

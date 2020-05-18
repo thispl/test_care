@@ -89,7 +89,6 @@ sendResetMail(String email) async {
   };
   var response = await http.post(url, body: data, headers: requestHeaders);
   if (response.statusCode == 200) {
-    print(response.body);
     var jsonData = json.decode(response.body);
     String message = jsonData['message'];
     if (message == 'not found') {
