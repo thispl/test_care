@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:patient_care/pages/intro.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 
 void main() => runApp(GSPMCApp());

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "438089019233",
+    "firebase_url": "https://mcw-gspmc.firebaseio.com",
+    "project_id": "mcw-gspmc",
+    "storage_bucket": "mcw-gspmc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:438089019233:android:3bb186cffa7071cd71df20",
+        "android_client_info": {
+          "package_name": "com.mcw.patient_care"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "438089019233-rfrlfcipu3i6k76krqofd84stn2fev03.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBs64Rywl7yr4YtPcPRo_fuliwq2_rp56o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "438089019233-rfrlfcipu3i6k76krqofd84stn2fev03.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

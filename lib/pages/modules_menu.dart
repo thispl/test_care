@@ -1,7 +1,11 @@
 import 'package:encrypted_shared_preferences/encrypted_shared_preferences.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:patient_care/components/grid_menu.dart';
 import 'package:patient_care/pages/settings.dart';
+import 'package:patient_care/services/notification-api.dart';
+
+FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
 class ModulesMenu extends StatefulWidget {
   @override
@@ -15,6 +19,22 @@ class _ModulesMenuState extends State<ModulesMenu> {
   void initState() {
     super.initState();
     getUserInfo();
+    registerDevice();
+  }
+
+  void registerDevice() async {
+    _firebaseMessaging.getToken().then((token) {
+      deviceRegistration(token);
+    });
+
+    _firebaseMessaging.configure(
+        onMessage: (Map<String, dynamic> message) async {
+      print('onMessage:$message');
+    }, onLaunch: (Map<String, dynamic> message) async {
+      print('onLaunch:$message');
+    }, onResume: (Map<String, dynamic> message) async {
+      print('onResume:$message');
+    });
   }
 
   getUserInfo() async {
@@ -26,7 +46,6 @@ class _ModulesMenuState extends State<ModulesMenu> {
       });
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -109,4 +128,3 @@ class _ModulesMenuState extends State<ModulesMenu> {
     );
   }
 }
-

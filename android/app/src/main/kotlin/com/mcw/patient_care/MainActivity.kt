@@ -1,4 +1,4 @@
-package com.example.patient_care
+package com.mcw.patient_care
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity
