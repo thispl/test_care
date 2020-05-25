@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_skeleton/flutter_skeleton.dart';
 import 'package:patient_care/models/knowledgebase/article.dart';
+import 'package:patient_care/models/knowledgebase/topic.dart';
 import 'package:patient_care/services/kb-api.dart';
 import 'package:patient_care/pages/kb/kb_detail.dart';
-
 import 'kb_topics.dart';
 
 class KBList extends StatefulWidget {
+
+  final String topic;
+  KBList({Key key, @required this.topic}) : super(key: key);
+
   @override
   _KBListState createState() => _KBListState();
 }
@@ -18,7 +22,7 @@ class _KBListState extends State<KBList> {
   @override
   void initState() {
     super.initState();
-    fetchArticle().then((articlesFromServer) {
+    fetchArticle(widget.topic).then((articlesFromServer) {
       setState(() {
         articles = articlesFromServer;
         filteredArticles = articles;

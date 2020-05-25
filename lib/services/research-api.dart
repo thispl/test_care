@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:encrypted_shared_preferences/encrypted_shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:patient_care/models/research.dart';
@@ -15,7 +13,7 @@ Future<List<Research>> fetchResearch([String filter]) async {
   };
 
   String url =
-      'https://mcw-gspmc.tk/api/resource/Research Project?fields=["*"]';
+      'https://www.mcw-gspmc.tk/api/resource/Research Project?fields=["*"]';
 
   if (filter != null) {
     url = url + "&filters=[['user_id','=','$userId']]";

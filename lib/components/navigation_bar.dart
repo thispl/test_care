@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:patient_care/pages/dashboard.dart';
 import 'package:patient_care/pages/patient/patient_list.dart';
 // import 'package:patient_care/pages/patient/patient_detail.dart';
 import 'package:patient_care/pages/research/research_list.dart';
@@ -20,8 +19,8 @@ class _BtmNavigationBarState extends State<BtmNavigationBar> {
   [
     PatientList(),
     ResearchList(),
-    Dashboard(),
-    KBList(),
+    // Dashboard(),
+    // KBList(),
     Settings()
   ];
 

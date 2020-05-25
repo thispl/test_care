@@ -5,7 +5,7 @@ import 'dart:convert';
 
 Future<List<Patient>> fetchCompletedPatient([String filter]) async {
   String url =
-      'https://mcw-gspmc.tk/api/resource/Order?fields=["_read","patient_first_name","patient_last_name","name","status","report_date","report"]&filters=[["status", "=", "Reported"]]&order_by=_read%20asc&limit_page_length=999';
+      'https://www.mcw-gspmc.tk/api/resource/Order?fields=["_read","patient_first_name","patient_last_name","name","status","report_date","report"]&filters=[["status", "=", "Reported"]]&order_by=_read%20asc&limit_page_length=999';
 
   if (filter != null) {
     url = url + "&filters=[$filter]";
@@ -26,7 +26,7 @@ Future<List<Patient>> fetchCompletedPatient([String filter]) async {
 
 Future<List<Patient>> fetchPendingPatient([String filter]) async {
   String url =
-      'https://mcw-gspmc.tk/api/resource/Order?fields=["_read","patient_first_name","patient_last_name","name","status"]&filters=[["status", "=", "In Progress"]]&order_by=_read%20asc&limit_page_length=999';
+      'https://www.mcw-gspmc.tk/api/resource/Order?fields=["_read","patient_first_name","patient_last_name","name","status"]&filters=[["status", "=", "In Progress"]]&order_by=_read%20asc&limit_page_length=999';
 
   if (filter != null) {
     url = url + "&filters=[$filter]";
@@ -46,7 +46,7 @@ Future<List<Patient>> fetchPendingPatient([String filter]) async {
 }
 
 void markRead(patientid) async {
-  String url = 'https://mcw-gspmc.tk/api/resource/Order/$patientid';
+  String url = 'https://www.mcw-gspmc.tk/api/resource/Order/$patientid';
   EncryptedSharedPreferences pref = EncryptedSharedPreferences();
   String cookie = await pref.getString('cookie');
   Map<String, String> requestHeaders = {

@@ -28,7 +28,7 @@ class _KBDetailState extends State<KBDetail> {
     // offers several different constructors to play videos from assets, files,
     // or the internet.
     if (widget.article.video != null) {
-      videoUrl = 'https://mcw-gspmc.tk' + widget.article.video;
+      videoUrl = 'https://www.mcw-gspmc.tk' + widget.article.video;
     }
     String url = videoUrl ?? widget.article.videoLink ?? null;
     if (url != null) {
@@ -64,9 +64,8 @@ class _KBDetailState extends State<KBDetail> {
                 _chewieController.dispose();
                 _controller.pause();
               }
-
               Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) => KBList()));
+                  builder: (BuildContext context) => KBList(topic: widget.article.topic,)));
             },
           ),
           title: Text(widget.article.articleName,

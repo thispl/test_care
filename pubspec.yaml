@@ -44,6 +44,7 @@ dependencies:
   square_in_app_payments:
   flutter_skeleton:
   shimmer:
+  status_alert:
 
 
   flutter_plugin_pdf_viewer:

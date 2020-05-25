@@ -13,14 +13,26 @@ Future submitAgreement(password) async {
     'Cookie': cookie
   };
 
-  String url = 'https://mcw-gspmc.tk/api/resource/System User/$userid';
+  String url = 'https://www.mcw-gspmc.tk/api/resource/System User/$userid';
 
-  final Map<String, dynamic> data = {'agreed': 1,'password':password};
-  final response = await http.put(url, body: json.encode(data), headers: requestHeaders);
+  final Map<String, dynamic> data = {'agreed': 1};
+  final response =
+      await http.put(url, body: json.encode(data), headers: requestHeaders);
   return response.statusCode.toInt();
-
 }
 
-Future<String> checkAgreement(){
+Future<bool> checkAgreed() async {
+  EncryptedSharedPreferences pref = EncryptedSharedPreferences();
+  String cookie = await pref.getString('cookie');
+  String userid = await pref.getString('user_id');
+  Map<String, String> requestHeaders = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/x-www-form-urlencoded',
+    'Cookie': cookie
+  };
 
+  String url = 'https://www.mcw-gspmc.tk/api/resource/System User/$userid';
+  final response = await http.get(url, headers: requestHeaders);
+  var data = json.decode(response.body)['data'];
+  return data['agreed'] == 1 ? true : false;
 }

@@ -1,6 +1,3 @@
-
-import 'dart:ffi';
-
 class Research {
   String projectId;
   String projectName;

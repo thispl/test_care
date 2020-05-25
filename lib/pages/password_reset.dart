@@ -80,7 +80,7 @@ TextEditingController emailcontroller = new TextEditingController();
 
 sendResetMail(String email) async {
   var url =
-      'https://mcw-gspmc.tk/api/method/frappe.core.doctype.user.user.reset_password';
+      'https://www.mcw-gspmc.tk/api/method/frappe.core.doctype.user.user.reset_password';
   Map data = {'user': email};
 
   Map<String, String> requestHeaders = {

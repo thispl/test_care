@@ -15,7 +15,7 @@ deviceRegistration(token) async {
     'Cookie': cookie
   };
   String url =
-      'https://mcw-gspmc.tk/api/resource/Notification Device ID?filters=[["user","=","$userid"]]&fields=["device_id"]';
+      'https://www.mcw-gspmc.tk/api/resource/Notification Device ID?filters=[["user","=","$userid"]]&fields=["device_id"]';
   final response = await http.get(url, headers: requestHeaders);
   data = json.decode(response.body)['data'];
   if (data.isNotEmpty) {
@@ -26,7 +26,7 @@ deviceRegistration(token) async {
   }
   if (_isNewToken) {
     String url =
-        'https://mcw-gspmc.tk/api/resource/Notification Device ID?data={"user":"$userid","device_id":"$token"}';
+        'https://www.mcw-gspmc.tk/api/resource/Notification Device ID?data={"user":"$userid","device_id":"$token"}';
     final response = await http.post(url, headers: requestHeaders);
     print(response.body);
   }

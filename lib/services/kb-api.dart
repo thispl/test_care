@@ -3,8 +3,10 @@ import 'package:http/http.dart' as http;
 import 'package:patient_care/models/knowledgebase/article.dart';
 import 'dart:convert';
 
+import 'package:patient_care/models/knowledgebase/topic.dart';
+
 // class KBServices {
-//   static String url = 'https://mcw-gspmc.tk/api/resource/Article?fields=["*"]';
+//   static String url = 'https://www.mcw-gspmc.tk/api/resource/Article?fields=["*"]';
 
 //   static Future<List<Article>> fetchArticle() async {
 //     try {
@@ -38,10 +40,10 @@ import 'dart:convert';
 //   }
 // }
 
-Future<List<Article>> fetchArticle() async {
+Future<List<Article>> fetchArticle(String filter) async {
   try {
     String url =
-        'https://mcw-gspmc.tk/api/resource/Article?fields=["article_name","topic","description","video","video_url"]';
+        'https://www.mcw-gspmc.tk/api/resource/Article?fields=["article_name","topic","description","video","video_url"]';
     EncryptedSharedPreferences pref = EncryptedSharedPreferences();
     String cookie = await pref.getString('cookie');
     Map<String, String> requestHeaders = {
@@ -49,9 +51,9 @@ Future<List<Article>> fetchArticle() async {
       'Cookie': cookie
     };
 
-    // if (filter != null) {
-    //   url = url + "&filters=[$filter]";
-    // }
+    if (filter != null) {
+      url = url + '&filters=[["topic","=","$filter"]]';
+    }
     List<Article> list = [];
     final response = await http.get(url, headers: requestHeaders);
     if (response.statusCode == 200) {
@@ -71,3 +73,55 @@ List<Article> parseArticles(String responseBody) {
   final parsed = json.decode(responseBody)['data'] as List;
   return parsed.map<Article>((json) => Article.fromJson(json)).toList();
 }
+
+Future<List<Topic>> fetchTopics([String filter]) async {
+  String url =
+      'https://www.mcw-gspmc.tk/api/resource/Topic?fields=["is_premium","topic","image"]&limit_page_length=999';
+
+  EncryptedSharedPreferences pref = EncryptedSharedPreferences();
+  String cookie = await pref.getString('cookie');
+  Map<String, String> requestHeaders = {
+    'Accept': 'application/json',
+    'Cookie': cookie
+  };
+  List<Topic> list = [];
+
+  final response = await http.get(url, headers: requestHeaders);
+  var data = json.decode(response.body)['data'] as List;
+  list = data.map<Topic>((json) => Topic.fromJson(json)).toList();
+  return list;
+}
+
+Future<bool> checkPremiumUser() async {
+  EncryptedSharedPreferences pref = EncryptedSharedPreferences();
+  String cookie = await pref.getString('cookie');
+  
+  Map<String, String> requestHeaders = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/x-www-form-urlencoded',
+    'Cookie': cookie
+  };
+String userid = await pref.getString('user_id');
+  String url = 'https://www.mcw-gspmc.tk/api/resource/System User/$userid';
+  final response = await http.get(url, headers: requestHeaders);
+  var data = json.decode(response.body)['data'];
+  return data['ispremium'] == 1 ? true : false;
+}
+
+void markPremiumUser() async {
+  EncryptedSharedPreferences pref = EncryptedSharedPreferences();
+  String cookie = await pref.getString('cookie');
+  String userid = await pref.getString('user_id');
+  String url = 'https://www.mcw-gspmc.tk/api/resource/System User/$userid';
+
+  Map<String, String> requestHeaders = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/x-www-form-urlencoded',
+    'Cookie': cookie
+  };
+  final Map<String, dynamic> data = {'ispremium': 1};
+  await http.put(url, body: json.encode(data), headers: requestHeaders);
+}
+
+
+

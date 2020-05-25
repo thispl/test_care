@@ -5,7 +5,6 @@ import 'package:patient_care/pages/payments/payment.dart';
 import 'package:patient_care/pages/research/research_list.dart';
 import 'package:patient_care/pages/kb/kb_topics.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
-import 'package:patient_care/pages/settings.dart';
 import 'package:polygon_clipper/polygon_border.dart';
 import 'package:polygon_clipper/polygon_clipper.dart';
 

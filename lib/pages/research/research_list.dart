@@ -87,17 +87,12 @@ class _ResearchListState extends State<ResearchList> {
                               })),
                     );
             } else {
-              return ListSkeleton(
+              return CardListSkeleton(
                 style: SkeletonStyle(
                   theme: SkeletonTheme.Light,
-                  isShowAvatar: false,
+                  isShowAvatar: true,
+                  isCircleAvatar: true,
                   barCount: 2,
-                  colors: [
-                    Colors.teal.shade100,
-                    Colors.teal.shade300,
-                    Colors.teal.shade500,
-                  ],
-                  isAnimation: true,
                 ),
               );
             }

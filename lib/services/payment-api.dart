@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:patient_care/models/knowledgebase/payment_info.dart';
 
 Future<List<String>> fetchSquareInfo() async {
-  String url = 'https://mcw-gspmc.tk/api/resource/Settings/Settings';
+  String url = 'https://www.mcw-gspmc.tk/api/resource/Settings/Settings';
   EncryptedSharedPreferences pref = EncryptedSharedPreferences();
   String cookie = await pref.getString('cookie');
   Map<String, String> requestHeaders = {
@@ -20,7 +20,7 @@ Future<List<String>> fetchSquareInfo() async {
 }
 
 Future<double> fetchAmount() async {
-  String url = 'https://mcw-gspmc.tk/api/resource/Payment Settings/Payment Settings';
+  String url = 'https://www.mcw-gspmc.tk/api/resource/Payment Settings/Payment Settings';
   EncryptedSharedPreferences pref = EncryptedSharedPreferences();
   String cookie = await pref.getString('cookie');
   Map<String, String> requestHeaders = {
@@ -33,7 +33,7 @@ Future<double> fetchAmount() async {
 }
 
 Future<String> processPayment(String nonce,double amount,String userId,String locationId) async {
-  String url = 'https://mcw-gspmc.tk/api/method/mcw.payment.create_payment?nonce=$nonce&amount=$amount&user_id=$userId&location_id=$locationId';
+  String url = 'https://www.mcw-gspmc.tk/api/method/mcw.payment.create_payment?nonce=$nonce&amount=$amount&user_id=$userId&location_id=$locationId';
   EncryptedSharedPreferences pref = EncryptedSharedPreferences();
   String cookie = await pref.getString('cookie');
   Map<String, String> requestHeaders = {
@@ -57,9 +57,9 @@ Future<List<PaymentInfo>> fetchPayment() async {
     'Cookie': cookie
   };
   String url =
-      'https://mcw-gspmc.tk/api/resource/Payment?fields=["name","amount_paid"]&filters=[["user","=","$userid"]]';
+      'https://www.mcw-gspmc.tk/api/resource/Payment?fields=["name","amount_paid"]&filters=[["user","=","$userid"]]';
   final response = await http.get(url, headers: requestHeaders);
-  List<PaymentInfo> list = [];
+  List<PaymentInfo> list;
   if (response.statusCode == 200) {
     var data = json.decode(response.body)['data'] as List;
     list = data.map<PaymentInfo>((json) => PaymentInfo.fromJson(json)).toList();

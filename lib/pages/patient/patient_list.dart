@@ -145,19 +145,14 @@ class _PatientListState extends State<PatientList> {
         GlobalKey<RefreshIndicatorState>();
     return Container(
       child: isLoading
-          ? ListSkeleton(
-              style: SkeletonStyle(
-                theme: SkeletonTheme.Light,
-                isShowAvatar: false,
-                barCount: 3,
-                colors: [
-                  Colors.teal.shade100,
-                  Colors.teal.shade300,
-                  Colors.teal.shade500,
-                ],
-                isAnimation: true,
-              ),
-            )
+          ? CardListSkeleton(
+                style: SkeletonStyle(
+                  theme: SkeletonTheme.Light,
+                  isShowAvatar: true,
+                  isCircleAvatar: true,
+                  barCount: 2,
+                ),
+              )
           : Column(
               children: [
                 TextField(
@@ -291,19 +286,14 @@ class _PatientListState extends State<PatientList> {
         GlobalKey<RefreshIndicatorState>();
     return Container(
       child: isLoading
-          ? ListSkeleton(
-              style: SkeletonStyle(
-                theme: SkeletonTheme.Light,
-                isShowAvatar: false,
-                barCount: 3,
-                colors: [
-                  Colors.teal.shade100,
-                  Colors.teal.shade300,
-                  Colors.teal.shade500,
-                ],
-                isAnimation: true,
-              ),
-            )
+          ? CardListSkeleton(
+                style: SkeletonStyle(
+                  theme: SkeletonTheme.Light,
+                  isShowAvatar: true,
+                  isCircleAvatar: true,
+                  barCount: 2,
+                ),
+              )
           : Column(
               children: [
                 TextField(

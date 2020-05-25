@@ -6,7 +6,7 @@ import 'dart:core';
 
 Future<List<LicenseInfo>> fetchLicenseInfo() async {
   String url =
-      'https://mcw-gspmc.tk/api/resource/License Information?fields=["title","description"]';
+      'https://www.mcw-gspmc.tk/api/resource/License Information?fields=["title","description"]';
   EncryptedSharedPreferences pref = EncryptedSharedPreferences();
   String cookie = await pref.getString('cookie');
   Map<String, String> requestHeaders = {
@@ -20,4 +20,21 @@ Future<List<LicenseInfo>> fetchLicenseInfo() async {
     list = data.map<LicenseInfo>((json) => LicenseInfo.fromJson(json)).toList();
   }
   return list;
+}
+
+ Future<List> fetchTerms() async{
+  List terms = [];
+  String url =
+      'https://www.mcw-gspmc.tk/api/resource/License Information/Terms Of Use';
+  EncryptedSharedPreferences pref = EncryptedSharedPreferences();
+  String cookie = await pref.getString('cookie');
+  Map<String, String> requestHeaders = {
+    'Accept': 'application/json',
+    'Cookie': cookie
+  };
+  final response = await http.get(url, headers: requestHeaders);
+  var data = json.decode(response.body)['data'];
+  terms.add(data['title']);
+  terms.add(data['description']);
+  return terms;
 }

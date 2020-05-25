@@ -19,7 +19,7 @@ class _PDFServiceState extends State<PDFService> {
   @override
   void initState() {
     report = widget.reportPath;
-    url = 'https://mcw-gspmc.tk' + report;
+    url = 'https://www.mcw-gspmc.tk' + report;
     super.initState();
     _initPdf();
   }
