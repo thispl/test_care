@@ -1,14 +1,11 @@
-import 'package:encrypted_shared_preferences/encrypted_shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:patient_care/pages/password_reset.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:patient_care/services/login-api.dart';
 import 'package:patient_care/utilities/constants.dart';
-import 'package:http/http.dart' as http;
-import 'package:patient_care/utilities/utils.dart';
-import 'dart:convert';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:patient_care/pages/modules_menu.dart';
+import 'package:patient_care/services/settings-api.dart';
 
 class CheckAgreement extends StatefulWidget {
   @override
@@ -16,6 +13,8 @@ class CheckAgreement extends StatefulWidget {
 }
 
 class _CheckAgreementState extends State<CheckAgreement> {
+  String title, description;
+  bool _isAgreed = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -142,7 +141,6 @@ class _CheckAgreementState extends State<CheckAgreement> {
   }
 
   Widget _agreedCheck() {
-    bool _isAgreed = true;
     return Row(
       children: [
         Checkbox(
@@ -157,10 +155,42 @@ class _CheckAgreementState extends State<CheckAgreement> {
           'I agree to all the ',
           style: TextStyle(color: Colors.black, fontSize: 16.0),
         ),
-        Text(
-          'Terms & Conditions',
-          style: TextStyle(
-              color: Colors.black, fontWeight: FontWeight.bold, fontSize: 16.0),
+        GestureDetector(
+          onTap: () {
+            fetchTerms().then((value) {
+              if (value != null) {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text(value[0]),
+                      content: Container(
+                          child: SingleChildScrollView(
+                              child: Html(data: value[1] ?? ''))),
+                      actions: <Widget>[
+                        FlatButton(
+                          child: Text("Close"),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    );
+                    // return object of type Dialog
+                  },
+                );
+              } else {
+                return Container();
+              }
+            });
+          },
+          child: Text(
+            'Terms & Conditions',
+            style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+                fontSize: 16.0),
+          ),
         )
       ],
     );
@@ -173,7 +203,45 @@ class _CheckAgreementState extends State<CheckAgreement> {
         child: RaisedButton(
             elevation: 5.0,
             onPressed: () {
-              _submitPassword(passwordcontroller.text);
+              if (confirmpasswordcontroller.text != passwordcontroller.text) {
+                Alert(
+                  context: context,
+                  type: AlertType.error,
+                  title: 'Alert',
+                  desc: 'Passwords not matching',
+                  buttons: [
+                    DialogButton(
+                      child: Text(
+                        "Retry",
+                        style: TextStyle(color: Colors.white, fontSize: 20),
+                      ),
+                      onPressed: () =>
+                          Navigator.of(context, rootNavigator: true).pop(),
+                      width: 120,
+                    )
+                  ],
+                ).show();
+              } else if (!_isAgreed) {
+                Alert(
+                  context: context,
+                  type: AlertType.error,
+                  title: 'Alert',
+                  desc: 'Terms and Conditions has to be accepted',
+                  buttons: [
+                    DialogButton(
+                      child: Text(
+                        "Retry",
+                        style: TextStyle(color: Colors.white, fontSize: 20),
+                      ),
+                      onPressed: () =>
+                          Navigator.of(context, rootNavigator: true).pop(),
+                      width: 120,
+                    )
+                  ],
+                ).show();
+              } else {
+                _submitPassword(passwordcontroller.text);
+              }
             },
             padding: EdgeInsets.all(15.0),
             shape: RoundedRectangleBorder(
@@ -192,36 +260,49 @@ class _CheckAgreementState extends State<CheckAgreement> {
 
   _submitPassword(password) async {
     int status = await submitAgreement(password);
-    String alert_title = 'Ok';
-    String alert_desc = 'Agreed';
+    String alertTitle = 'Ok';
+    String alertDesc = 'Agreed';
+    bool validated = true;
 
     if (status == 403) {
-      alert_title = "Not Permitted";
-      alert_desc = "User is not Permitted";
+      alertTitle = "Not Permitted";
+      alertDesc = "User is not Permitted";
+      validated = false;
     }
     if (status == 417) {
-      alert_title = "Weak Password";
-      alert_desc = "Try a Strong Password by including Alphanumeric-special characters";
+      alertTitle = "Weak Password";
+      alertDesc =
+          "Try a Strong Password by including Alphanumeric-special characters";
+      validated = false;
     }
     if (status == 404) {
-      alert_title = "Not Found";
-      alert_desc = "User Not Found";
+      alertTitle = "Not Found";
+      alertDesc = "User Not Found";
+      validated = false;
     }
-    Alert(
-      context: context,
-      type: AlertType.error,
-      title: alert_title,
-      desc: alert_desc,
-      buttons: [
-        DialogButton(
-          child: Text(
-            "Retry",
-            style: TextStyle(color: Colors.white, fontSize: 20),
+    if (!validated) {
+      Alert(
+        context: context,
+        type: AlertType.error,
+        title: alertTitle,
+        desc: alertDesc,
+        buttons: [
+          DialogButton(
+            child: Text(
+              "Retry",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
+            width: 120,
+          )
+        ],
+      ).show();
+    } else {
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+            builder: (BuildContext context) => ModulesMenu(),
           ),
-          onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
-          width: 120,
-        )
-      ],
-    ).show();
+          (Route<dynamic> route) => false);
+    }
   }
 }

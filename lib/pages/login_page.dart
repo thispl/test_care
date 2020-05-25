@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:patient_care/pages/check_agreement.dart';
 import 'package:patient_care/pages/password_reset.dart';
+import 'package:patient_care/services/login-api.dart';
 import 'package:patient_care/utilities/constants.dart';
 import 'package:http/http.dart' as http;
 import 'package:patient_care/utilities/utils.dart';
@@ -84,7 +85,7 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController passwordcontroller = new TextEditingController();
 
   signin(String email, String password) async {
-    var url = 'https://mcw-gspmc.tk/api/method/login';
+    var url = 'https://www.mcw-gspmc.tk/api/method/login';
     Map data = {'usr': email, 'pwd': password};
 
     Map<String, String> requestHeaders = {
@@ -113,12 +114,12 @@ class _LoginPageState extends State<LoginPage> {
           }
         });
         Future.delayed(const Duration(seconds: 1), () {
-        // navigateToHome();
-        Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(
-              builder: (BuildContext context) => ModulesMenu(),
-            ),
-            (Route<dynamic> route) => false);
+        navigateToHome();
+        // Navigator.of(context).pushAndRemoveUntil(
+        //     MaterialPageRoute(
+        //       builder: (BuildContext context) => ModulesMenu(),
+        //     ),
+        //     (Route<dynamic> route) => false);
       });
       });
     } else {
@@ -145,8 +146,8 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   navigateToHome(){
-    bool _checkAgreed = false;
-    if(_checkAgreed){
+    checkAgreed().then((value) {
+      if(value){
       Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(
               builder: (BuildContext context) => ModulesMenu(),
@@ -161,8 +162,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
             (Route<dynamic> route) => false);
     }
-
-    
+    });
   }
 
   Widget _emailTF() {
