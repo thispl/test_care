@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_skeleton/flutter_skeleton.dart';
-import 'package:patient_care/components/constants.dart';
+import 'package:patient_care/utilities/constants.dart';
 import 'package:patient_care/pages/patient/patient_detail.dart';
 import 'package:patient_care/pages/patient/pdf_service.dart';
 import 'package:patient_care/services/patient-api.dart';

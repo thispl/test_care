@@ -31,9 +31,10 @@ Future<bool> checkAgreed() async {
     'Content-Type': 'application/x-www-form-urlencoded',
     'Cookie': cookie
   };
-
+  print(cookie);
   String url = server + '/resource/System User/$userid';
   final response = await http.get(url, headers: requestHeaders);
+  print(response.body);
   var data = json.decode(response.body)['data'];
   return data['agreed'] == 1 ? true : false;
 }

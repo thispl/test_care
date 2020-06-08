@@ -34,4 +34,11 @@ final kBoxDecorationStyle = BoxDecoration(
   ],
 );
 
-final String server = 'https://www.mcw-gspmc.tk/api';
+class Constants{
+  static const String Report = 'Report';
+  static const List<String> choices = <String>[
+    Report
+  ];
+}
+
+final String server = 'http://35.170.232.61/api';
