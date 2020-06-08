@@ -3,10 +3,11 @@ import 'package:patient_care/models/license_info.dart';
 import 'package:encrypted_shared_preferences/encrypted_shared_preferences.dart';
 import 'dart:convert';
 import 'dart:core';
+import 'package:patient_care/utilities/constants.dart';
 
 Future<List<LicenseInfo>> fetchLicenseInfo() async {
   String url =
-      'https://www.mcw-gspmc.tk/api/resource/License Information?fields=["title","description"]';
+      server + '/resource/License Information?fields=["title","description"]';
   EncryptedSharedPreferences pref = EncryptedSharedPreferences();
   String cookie = await pref.getString('cookie');
   Map<String, String> requestHeaders = {
@@ -25,7 +26,7 @@ Future<List<LicenseInfo>> fetchLicenseInfo() async {
  Future<List> fetchTerms() async{
   List terms = [];
   String url =
-      'https://www.mcw-gspmc.tk/api/resource/License Information/Terms Of Use';
+      server + '/resource/License Information/Terms Of Use';
   EncryptedSharedPreferences pref = EncryptedSharedPreferences();
   String cookie = await pref.getString('cookie');
   Map<String, String> requestHeaders = {

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:patient_care/components/constants.dart';
 import 'login_page.dart';
 import 'package:http/http.dart' as http;
 
@@ -97,15 +98,7 @@ sendResetMail(String email) async {
   }
 }
 
-String validateEmail(String value) {
-  Pattern pattern =
-      r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-  RegExp regex = new RegExp(pattern);
-  if (!regex.hasMatch(value))
-    return 'Enter Valid Email';
-  else
-    return null;
-}
+
 
 // Widget _showSnackBar(BuildContext context) {
 //   return SnackBar(content: Text('Processing Data'));

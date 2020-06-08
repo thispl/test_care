@@ -33,3 +33,5 @@ final kBoxDecorationStyle = BoxDecoration(
     ),
   ],
 );
+
+final String server = 'https://www.mcw-gspmc.tk/api';

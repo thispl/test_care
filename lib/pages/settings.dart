@@ -75,8 +75,7 @@ class _SettingsState extends State<Settings> {
                     ),
                   ),
                   onPressed: () {
-                    pref.clear().then((value) {
-                    });
+                    pref.clear().then((value) {});
                     Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(
                           builder: (BuildContext context) => LoginPage()),
@@ -116,11 +115,7 @@ class _SettingsState extends State<Settings> {
                 if (snapshot.connectionState == ConnectionState.done &&
                     snapshot.hasData) {
                   if (snapshot.hasError) {
-                    Alert(
-                            context: context,
-                            title: "Connection Failed",
-                            desc: snapshot.data)
-                        .show();
+                    showAlert(context, "Connection Failed", snapshot.data);
                   }
                   return listViewWidget(snapshot.data);
                 } else {
@@ -144,7 +139,7 @@ Container listViewWidget(List<LicenseInfo> licenseInfo) {
           //     Text('No Data Found'),
           //   ],
           // )),
-        )
+          )
       : Container(
           padding: EdgeInsets.only(
               top: 250.0, left: 10.0, right: 10.0, bottom: 50.0),

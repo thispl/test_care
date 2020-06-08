@@ -5,6 +5,7 @@ import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:patient_care/models/research.dart';
 import 'package:patient_care/pages/research/research_detail.dart';
 import 'package:patient_care/services/research-api.dart';
+import 'package:patient_care/utilities/utils.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 import '../modules_menu.dart';
@@ -56,11 +57,7 @@ class _ResearchListState extends State<ResearchList> {
             if (snapshot.connectionState == ConnectionState.done &&
                 snapshot.hasData) {
               if (snapshot.hasError) {
-                Alert(
-                        context: context,
-                        title: "Connection Failed",
-                        desc: snapshot.data)
-                    .show();
+                showAlert(context, "Connection Failed", snapshot.data);
               }
               List<Research> research = snapshot.data;
               return research.length <= 0

@@ -6,6 +6,7 @@ import 'package:patient_care/models/knowledgebase/payment_info.dart';
 import 'package:patient_care/pages/kb/kb_topics.dart';
 import 'package:patient_care/services/kb-api.dart';
 import 'package:patient_care/services/payment-api.dart';
+import 'package:patient_care/utilities/utils.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:square_in_app_payments/models.dart';
 import 'package:square_in_app_payments/in_app_payments.dart';
@@ -97,22 +98,7 @@ class _PaymentsState extends State<Payments> {
 
   void _cardEntryCancel() {
     //Cancelled Card Entry
-    Alert(
-      context: context,
-      type: AlertType.error,
-      title: "Payment Cancelled",
-      desc: "Subscription Cancelled",
-      buttons: [
-        DialogButton(
-          child: Text(
-            "Proceed",
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
-          onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
-          width: 120,
-        )
-      ],
-    ).show();
+    showAlert(context, "Payment Cancelled", "Subscription Cancelled");
   }
 
   @override
@@ -154,11 +140,7 @@ class _PaymentsState extends State<Payments> {
                   if (snapshot.connectionState == ConnectionState.done &&
                       snapshot.hasData) {
                     if (snapshot.hasError) {
-                      Alert(
-                              context: context,
-                              title: "Connection Failed",
-                              desc: snapshot.data)
-                          .show();
+                      showAlert(context, "Connection Failed", snapshot.data);
                     }
                     paymentInfo = snapshot.data;
                     if (paymentInfo.isNotEmpty) {

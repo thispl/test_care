@@ -1,6 +1,10 @@
-import 'package:encrypted_shared_preferences/encrypted_shared_preferences.dart';
+import 'dart:ui';
 
-setCookieVariables(){
+import 'package:encrypted_shared_preferences/encrypted_shared_preferences.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
+setCookieVariables() {
   setUsername();
   setUserid();
 }
@@ -55,4 +59,31 @@ setUserid() async {
       }
     }
   }
+}
+
+void showAlert(context, title, body) {
+  // flutter defined function
+  showCupertinoDialog(
+    barrierDismissible: false,
+    context: context,
+    builder: (BuildContext context) {
+      // return object of type Dialog
+      return BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+        child: CupertinoAlertDialog(
+          title: Text(title),
+          content: Text(body),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            FlatButton(
+              child: Text("Close"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            )
+          ],
+        ),
+      );
+    },
+  );
 }

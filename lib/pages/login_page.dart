@@ -98,7 +98,7 @@ class _LoginPageState extends State<LoginPage> {
     var response = await http.post(url, body: data, headers: requestHeaders);
     if (response.statusCode == 200) {
       jsonData = json.decode(response.body);
-      
+
       setState(() {
         _isLoading = false;
         response.headers.forEach((key, value) {
@@ -114,54 +114,36 @@ class _LoginPageState extends State<LoginPage> {
           }
         });
         Future.delayed(const Duration(seconds: 1), () {
-        navigateToHome();
-        // Navigator.of(context).pushAndRemoveUntil(
-        //     MaterialPageRoute(
-        //       builder: (BuildContext context) => ModulesMenu(),
-        //     ),
-        //     (Route<dynamic> route) => false);
-      });
+          navigateToHome();
+          // Navigator.of(context).pushAndRemoveUntil(
+          //     MaterialPageRoute(
+          //       builder: (BuildContext context) => ModulesMenu(),
+          //     ),
+          //     (Route<dynamic> route) => false);
+        });
       });
     } else {
       if (response.statusCode == 401) {
-        Alert(
-          context: context,
-          type: AlertType.error,
-          title: "Authentication Failed",
-          desc: "Check Username/Password",
-          buttons: [
-            DialogButton(
-              child: Text(
-                "Retry",
-                style: TextStyle(color: Colors.white, fontSize: 20),
-              ),
-              onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
-              width: 120,
-            )
-          ],
-        ).show();
+        showAlert(context, "Authentication Failed", "Check Username/Password");
       }
-      // print(response.statusCode);
     }
   }
 
-  navigateToHome(){
+  navigateToHome() {
     checkAgreed().then((value) {
-      if(value){
-      Navigator.of(context).pushAndRemoveUntil(
+      if (value) {
+        Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(
               builder: (BuildContext context) => ModulesMenu(),
             ),
             (Route<dynamic> route) => false);
-    }
-    else
-    {
-      Navigator.of(context).pushAndRemoveUntil(
+      } else {
+        Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(
               builder: (BuildContext context) => CheckAgreement(),
             ),
             (Route<dynamic> route) => false);
-    }
+      }
     });
   }
 
@@ -226,10 +208,10 @@ class _LoginPageState extends State<LoginPage> {
       child: FlatButton(
         onPressed: () {
           Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(
-              builder: (BuildContext context) => PasswordReset(),
-            ),
-            (Route<dynamic> route) => false);
+              MaterialPageRoute(
+                builder: (BuildContext context) => PasswordReset(),
+              ),
+              (Route<dynamic> route) => false);
         },
         padding: EdgeInsets.only(right: 0.0),
         child: Text('Forgot Password?', style: kLabelStyle),

@@ -2,6 +2,7 @@ import 'package:encrypted_shared_preferences/encrypted_shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:patient_care/models/research.dart';
 import 'dart:convert';
+import 'package:patient_care/utilities/constants.dart';
 
 Future<List<Research>> fetchResearch([String filter]) async {
   EncryptedSharedPreferences pref = EncryptedSharedPreferences();
@@ -13,7 +14,7 @@ Future<List<Research>> fetchResearch([String filter]) async {
   };
 
   String url =
-      'https://www.mcw-gspmc.tk/api/resource/Research Project?fields=["*"]';
+      server + '/resource/Research Project?fields=["*"]';
 
   if (filter != null) {
     url = url + "&filters=[['user_id','=','$userId']]";

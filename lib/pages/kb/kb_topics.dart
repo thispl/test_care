@@ -8,6 +8,7 @@ import 'package:patient_care/pages/kb/kb_list.dart';
 import 'package:patient_care/pages/modules_menu.dart';
 import 'package:patient_care/pages/payments/payment.dart';
 import 'package:patient_care/services/kb-api.dart';
+import 'package:patient_care/utilities/utils.dart';
 import 'package:polygon_clipper/polygon_border.dart';
 import 'package:polygon_clipper/polygon_clipper.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
@@ -110,11 +111,7 @@ class KBTopics extends StatelessWidget {
             if (snapshot.connectionState == ConnectionState.done &&
                 snapshot.hasData) {
               if (snapshot.hasError) {
-                Alert(
-                        context: context,
-                        title: "Connection Failed",
-                        desc: snapshot.data)
-                    .show();
+                showAlert(context, "Connection Failed", snapshot.data);
               }
               List<Topic> topic = snapshot.data;
               return topic.length <= 0
@@ -225,31 +222,37 @@ isPremiumUser(context, topic) {
                 topic: topic,
               )));
     } else {
-      Alert(
-          context: context,
-          type: AlertType.info,
-          title: "Premium Content",
-          desc: "Content is only Available for Premium Members",
-          buttons: [
-            DialogButton(
-              child: Text(
-                "Interested?",
-                style: TextStyle(color: Colors.white, fontSize: 20),
+      showCupertinoDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) {
+          // return object of type Dialog
+          return CupertinoAlertDialog(
+            title: Text("Premium Content"),
+            content: Text("Content is only Available for Premium Members"),
+            actions: <Widget>[
+              // usually buttons at the bottom of the dialog
+              FlatButton(
+                child: Text("Interesed?"),
+                onPressed: () {
+                  Navigator.of(context, rootNavigator: true).pop();
+                  Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(
+                        builder: (BuildContext context) => Payments(),
+                      ),
+                      (Route<dynamic> route) => false);
+                },
               ),
-              onPressed: () {
-                Navigator.of(context, rootNavigator: true).pop();
-                Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(
-                    builder: (BuildContext context) => Payments(),
-                  ),
-                  (Route<dynamic> route) => false);
-              },
-              width: 120,
-            )
-          ],
-          closeFunction: () =>
-              Navigator.of(context, rootNavigator: true).pop()
-              ).show();
+              FlatButton(
+                child: Text("Close"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        },
+      );
     }
   });
 }

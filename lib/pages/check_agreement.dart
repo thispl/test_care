@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:patient_care/services/login-api.dart';
 import 'package:patient_care/utilities/constants.dart';
+import 'package:patient_care/utilities/utils.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:patient_care/pages/modules_menu.dart';
 import 'package:patient_care/services/settings-api.dart';
@@ -204,41 +205,11 @@ class _CheckAgreementState extends State<CheckAgreement> {
             elevation: 5.0,
             onPressed: () {
               if (confirmpasswordcontroller.text != passwordcontroller.text) {
-                Alert(
-                  context: context,
-                  type: AlertType.error,
-                  title: 'Alert',
-                  desc: 'Passwords not matching',
-                  buttons: [
-                    DialogButton(
-                      child: Text(
-                        "Retry",
-                        style: TextStyle(color: Colors.white, fontSize: 20),
-                      ),
-                      onPressed: () =>
-                          Navigator.of(context, rootNavigator: true).pop(),
-                      width: 120,
-                    )
-                  ],
-                ).show();
+                showAlert(context, "Alert",
+                    "Check Username/PasswordPasswords not matching");
               } else if (!_isAgreed) {
-                Alert(
-                  context: context,
-                  type: AlertType.error,
-                  title: 'Alert',
-                  desc: 'Terms and Conditions has to be accepted',
-                  buttons: [
-                    DialogButton(
-                      child: Text(
-                        "Retry",
-                        style: TextStyle(color: Colors.white, fontSize: 20),
-                      ),
-                      onPressed: () =>
-                          Navigator.of(context, rootNavigator: true).pop(),
-                      width: 120,
-                    )
-                  ],
-                ).show();
+                showAlert(context, "Alert",
+                    "Terms and Conditions has to be accepted");
               } else {
                 _submitPassword(passwordcontroller.text);
               }
@@ -281,22 +252,7 @@ class _CheckAgreementState extends State<CheckAgreement> {
       validated = false;
     }
     if (!validated) {
-      Alert(
-        context: context,
-        type: AlertType.error,
-        title: alertTitle,
-        desc: alertDesc,
-        buttons: [
-          DialogButton(
-            child: Text(
-              "Retry",
-              style: TextStyle(color: Colors.white, fontSize: 20),
-            ),
-            onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
-            width: 120,
-          )
-        ],
-      ).show();
+      showAlert(context, alertTitle, alertDesc);
     } else {
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(

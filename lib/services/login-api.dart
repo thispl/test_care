@@ -2,6 +2,7 @@ import 'package:http/http.dart' as http;
 import 'package:encrypted_shared_preferences/encrypted_shared_preferences.dart';
 import 'dart:convert';
 import 'dart:core';
+import  'package:patient_care/utilities/constants.dart';
 
 Future submitAgreement(password) async {
   EncryptedSharedPreferences pref = EncryptedSharedPreferences();
@@ -13,7 +14,7 @@ Future submitAgreement(password) async {
     'Cookie': cookie
   };
 
-  String url = 'https://www.mcw-gspmc.tk/api/resource/System User/$userid';
+  String url = server + '/resource/System User/$userid';
 
   final Map<String, dynamic> data = {'agreed': 1};
   final response =
@@ -31,7 +32,7 @@ Future<bool> checkAgreed() async {
     'Cookie': cookie
   };
 
-  String url = 'https://www.mcw-gspmc.tk/api/resource/System User/$userid';
+  String url = server + '/resource/System User/$userid';
   final response = await http.get(url, headers: requestHeaders);
   var data = json.decode(response.body)['data'];
   return data['agreed'] == 1 ? true : false;

@@ -4,9 +4,10 @@ import 'package:patient_care/models/knowledgebase/article.dart';
 import 'dart:convert';
 
 import 'package:patient_care/models/knowledgebase/topic.dart';
+import 'package:patient_care/utilities/constants.dart';
 
 // class KBServices {
-//   static String url = 'https://www.mcw-gspmc.tk/api/resource/Article?fields=["*"]';
+//   static String url = server + '/resource/Article?fields=["*"]';
 
 //   static Future<List<Article>> fetchArticle() async {
 //     try {
@@ -43,7 +44,7 @@ import 'package:patient_care/models/knowledgebase/topic.dart';
 Future<List<Article>> fetchArticle(String filter) async {
   try {
     String url =
-        'https://www.mcw-gspmc.tk/api/resource/Article?fields=["article_name","topic","description","video","video_url"]';
+        server + '/resource/Article?fields=["article_name","topic","description","video","video_url"]';
     EncryptedSharedPreferences pref = EncryptedSharedPreferences();
     String cookie = await pref.getString('cookie');
     Map<String, String> requestHeaders = {
@@ -75,8 +76,8 @@ List<Article> parseArticles(String responseBody) {
 }
 
 Future<List<Topic>> fetchTopics([String filter]) async {
-  String url =
-      'https://www.mcw-gspmc.tk/api/resource/Topic?fields=["is_premium","topic","image"]&limit_page_length=999';
+  String url = server + '/resource/Topic?fields=["is_premium","topic","image"]&limit_page_length=999';
+  print(url);
 
   EncryptedSharedPreferences pref = EncryptedSharedPreferences();
   String cookie = await pref.getString('cookie');
@@ -102,7 +103,7 @@ Future<bool> checkPremiumUser() async {
     'Cookie': cookie
   };
 String userid = await pref.getString('user_id');
-  String url = 'https://www.mcw-gspmc.tk/api/resource/System User/$userid';
+  String url = server + '/resource/System User/$userid';
   final response = await http.get(url, headers: requestHeaders);
   var data = json.decode(response.body)['data'];
   return data['ispremium'] == 1 ? true : false;
@@ -112,7 +113,7 @@ void markPremiumUser() async {
   EncryptedSharedPreferences pref = EncryptedSharedPreferences();
   String cookie = await pref.getString('cookie');
   String userid = await pref.getString('user_id');
-  String url = 'https://www.mcw-gspmc.tk/api/resource/System User/$userid';
+  String url = server + '/resource/System User/$userid';
 
   Map<String, String> requestHeaders = {
     'Accept': 'application/json',
